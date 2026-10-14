@@ -128,7 +128,12 @@ Edit its file in `src/content/rooms/`. Photos are listed at the top; the first o
 
 ## Preview
 
-Run `npm run dev` and open http://localhost:4321. In the Claude desktop app, the preview panel uses `.claude/launch.json`. If `node_modules` is missing, run `npm install` first. Open the page you changed and show them.
+- **Claude desktop app:** use the preview panel (`.claude/launch.json` runs `npm run dev`).
+- **Codex, or anywhere without a preview panel:** run `npx astro dev --background`, then tell them to open http://localhost:4321 in their browser. The page updates by itself as you change files. `npx astro dev status` shows whether it's running and `npx astro dev stop` stops it.
+
+If `node_modules` is missing, run `npm install` first. Open the page you changed and show them.
+
+Some apps run you in a sandbox without internet access. Installing packages, `git push` and checking the live site need it: when you ask for approval, say why in plain words ("I need the internet to publish this").
 
 ## Publish
 

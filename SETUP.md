@@ -69,7 +69,7 @@ The site's address is **https://www.aikkya.in**. `aikkya.in`, `aikkya.com` and `
 
 6. **Permissions:** the project's `.claude/settings.json` lets Claude edit files in the folder, read `~/Downloads` and run the publishing commands without asking. The first time Claude reads Downloads, macOS asks for access; click Allow with them so they don't meet it alone.
 7. **Try it with them:** open Claude → Code → choose `~/aikkya-site`. Ask "show me the website" (the preview should open), then make a small change together and say "put it live". After go-live, check www.aikkya.in two minutes later.
-8. **ChatGPT (optional):** install the Codex app, sign in, open the same folder. It reads `AGENTS.md`, the same instructions Claude reads.
+8. **ChatGPT:** install the Codex app from chatgpt.com/codex, sign in with their ChatGPT account and open the same folder. It reads `AGENTS.md`, the same instructions Claude reads, and shows the site at http://localhost:4321 in their browser instead of a preview panel. Codex asks before using the internet (installing, publishing); approving is fine. The setup in steps 1 to 5 can also be done by pasting [SETUP-PROMPT.md](SETUP-PROMPT.md) into Codex.
 
 ## 4. After it's live
 

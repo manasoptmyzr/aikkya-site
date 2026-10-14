@@ -18,7 +18,11 @@ Everything about www.aikkya.in lives in a folder on your Mac called **aikkya-sit
 
 ## With ChatGPT
 
-Open the Codex app, choose the same **aikkya-site** folder, and ask the same way. Say "put it live" when you're done.
+1. Open the **Codex** app and choose the **aikkya-site** folder as the project.
+2. Ask the same way as above.
+3. To see the site, ask "show me the website". It will give you a link (http://localhost:4321) to open in Safari. The page changes as it works.
+4. When it asks to use the internet (to publish, for example), say yes.
+5. Say "put it live" when you're happy.
 
 ## Good to know
 
