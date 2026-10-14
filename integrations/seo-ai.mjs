@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url';
 import { parse } from 'node-html-parser';
 import TurndownService from 'turndown';
 
-const SITE = 'https://aikkya.com';
+let SITE = '';
 const PAGE_ORDER = ['/', '/stay/', '/us/', '/journal/', '/kind-words/', '/getting-here/', '/say-hello/'];
 const BANNED = [/\bbook now\b/i, /\bbook your stay\b/i, /\breserve now\b/i];
 
@@ -66,6 +66,9 @@ export default function seoAi() {
   return {
     name: 'aikkya-seo-ai',
     hooks: {
+      'astro:config:done': ({ config }) => {
+        SITE = config.site.replace(/\/$/, '');
+      },
       'astro:build:done': ({ dir, logger }) => {
         const root = fileURLToPath(dir);
         const errors = [];

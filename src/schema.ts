@@ -2,7 +2,7 @@
 // the facts about Aikkya without guessing.
 import { site, rupees } from './site';
 
-const base = 'https://aikkya.com';
+const base = import.meta.env.SITE.replace(/\/$/, '');
 
 export const lodging = (rooms: { name: string; line: string; sleeps: string }[] = []) => ({
   '@context': 'https://schema.org',

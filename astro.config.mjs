@@ -4,7 +4,9 @@ import sitemap from '@astrojs/sitemap';
 import seoAi from './integrations/seo-ai.mjs';
 
 export default defineConfig({
-  site: 'https://aikkya.com',
+  // The site's one address. Change it here and everything follows
+  // (except the host in .github/workflows/publish.yml).
+  site: 'https://www.aikkya.in',
   trailingSlash: 'ignore',
   compressHTML: true,
   integrations: [

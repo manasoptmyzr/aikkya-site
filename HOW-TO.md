@@ -1,6 +1,6 @@
 # Changing the website
 
-Everything about aikkya.com lives in a folder on your Mac called **aikkya-site**. You don't need to open the files yourself. You tell Claude (or ChatGPT) what you want, it makes the change, shows it to you, and puts it live when you say so.
+Everything about www.aikkya.in lives in a folder on your Mac called **aikkya-site**. You don't need to open the files yourself. You tell Claude (or ChatGPT) what you want, it makes the change, shows it to you, and puts it live when you say so.
 
 ## With Claude
 
@@ -13,7 +13,7 @@ Everything about aikkya.com lives in a folder on your Mac called **aikkya-site**
    - "Add this review from Google, by Meera, March 2027: …"
    - "On the Us page, add that Billi is now properly ours."
 4. It shows you the page in a preview on the right. Look it over and ask for changes if anything's off.
-5. When you're happy, say **"put it live"**. It's on aikkya.com about two minutes later.
+5. When you're happy, say **"put it live"**. It's on www.aikkya.in about two minutes later.
 6. Changed your mind? Say **"undo the last change on the live site"**.
 
 ## With ChatGPT

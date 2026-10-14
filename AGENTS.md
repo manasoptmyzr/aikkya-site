@@ -141,7 +141,7 @@ Run `npm run dev` and open http://localhost:4321. In the Claude desktop app, the
    git push
    ```
 
-3. The site updates at https://aikkya.com in about two minutes. `gh run list --limit 1` shows whether it finished.
+3. The site updates at https://www.aikkya.in in about two minutes. `gh run list --limit 1` shows whether it finished.
 
 If `git push` is rejected because something changed elsewhere, run `git pull --rebase` and push again.
 
@@ -151,7 +151,7 @@ Every publish is kept. To undo the last one: `git revert HEAD --no-edit`, then `
 
 ## Don't change without Manas
 
-- `public/robots.txt`, the IndexNow key file (`public/<32 letters and numbers>.txt`), `.github/workflows/` (publishing), `integrations/seo-ai.mjs` (the checks), `astro.config.mjs`, `package.json`.
+- `src/pages/robots.txt.ts`, the IndexNow key file (`public/<32 letters and numbers>.txt`), `.github/workflows/` (publishing), `integrations/seo-ai.mjs` (the checks), `astro.config.mjs`, `package.json`.
 - Don't add packages or upgrade Astro. Don't add analytics, embeds or anything that loads from another site.
 - Don't delete posts or photos unless they ask.
 

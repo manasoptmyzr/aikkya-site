@@ -1,4 +1,4 @@
-# Every change pushed to main goes live on aikkya.com in about two minutes.
+# Every change pushed to main goes live on www.aikkya.in in about two minutes.
 name: Publish
 
 on:
@@ -41,9 +41,11 @@ jobs:
     needs: deploy
     runs-on: ubuntu-latest
     continue-on-error: true
+    env:
+      HOST: www.aikkya.in
     steps:
       - run: |
-          urls=$(curl -fsSL https://aikkya.com/sitemap-0.xml | grep -o '<loc>[^<]*' | sed 's/<loc>//' | jq -R . | jq -sc .)
+          urls=$(curl -fsSL https://$HOST/sitemap-0.xml | grep -o '<loc>[^<]*' | sed 's/<loc>//' | jq -R . | jq -sc .)
           curl -fsS -X POST https://api.indexnow.org/indexnow \
             -H 'Content-Type: application/json; charset=utf-8' \
-            -d "{\"host\":\"aikkya.com\",\"key\":\"b56aa06014ef120a25d9bcb3623bfcf5\",\"keyLocation\":\"https://aikkya.com/b56aa06014ef120a25d9bcb3623bfcf5.txt\",\"urlList\":$urls}"
+            -d "{\"host\":\"$HOST\",\"key\":\"b56aa06014ef120a25d9bcb3623bfcf5\",\"keyLocation\":\"https://$HOST/b56aa06014ef120a25d9bcb3623bfcf5.txt\",\"urlList\":$urls}"

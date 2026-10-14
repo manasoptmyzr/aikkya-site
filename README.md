@@ -1,4 +1,4 @@
-# aikkya.com
+# www.aikkya.in
 
 The website for Aikkya, Shivani and Avijeet's farm stay in Seetla, Kumaon.
 
