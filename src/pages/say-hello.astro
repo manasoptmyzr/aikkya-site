@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import { site, whatsappLink } from '../site';
+---
+<Base title="Say hello" description="How to reach Shivani and Avijeet at Aikkya. There's no booking button: write to us on WhatsApp and tell us a little about yourselves.">
+  <div class="text page-head">
+    <h1>Say hello</h1>
+    <p>Aikkya is our home, and a few guests at a time stay with us. There's no booking button. We'd like to know a little about you first, and you about us.</p>
+    <p>Write to us on WhatsApp. Tell us who you are, roughly when you'd like to come, how many of you there are, and what brings you here. If it feels right for both of us, we'll take it from there.</p>
+    <p><a class="say" href={whatsappLink()}>Write to us on WhatsApp</a></p>
+    <p class="quiet">Or message <a href={site.instagram}>{site.instagramHandle}</a> on Instagram. The number is {site.phone}.</p>
+  </div>
+</Base>

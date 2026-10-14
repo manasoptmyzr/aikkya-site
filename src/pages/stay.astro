@@ -1,0 +1,75 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import Seam from '../components/Seam.astro';
+import { site, rupees, whatsappLink } from '../site';
+import { lodging } from '../schema';
+
+const rooms = (await getCollection('rooms')).sort((a, b) => a.data.order - b.data.order);
+const rendered = await Promise.all(rooms.map(async (r) => ({ room: r, Content: (await render(r)).Content })));
+const p = site.prices;
+---
+<Base
+  title="Stay"
+  description={`Where you'd stay at Aikkya: Kintsugi, A-Frame of Mind, and the Wabi and Sabi suites. ${rupees(p.wabiSabi)} to ${rupees(p.kintsugi)} a night for two, with breakfast.`}
+  schema={lodging(rooms.map((r) => r.data))}
+>
+  <div class="text page-head">
+    <h1>Stay</h1>
+    <p>Three places to stay, a short walk apart on the hillside. Wabi and Sabi are {rupees(p.wabiSabi)} a night, Kintsugi and the A-frame {rupees(p.kintsugi)}. That's for two, with breakfast. A third person in the same room is {rupees(p.extraGuest)} a night.</p>
+  </div>
+
+  {rendered.map(({ room, Content }, i) => (
+    <>
+      {i > 0 && <Seam />}
+      <section class="room" id={room.id}>
+        <div class="wide gallery">
+          <figure class="first">
+            <Photo src={room.data.photos[0].src} alt={room.data.photos[0].alt} />
+          </figure>
+          <div class="strip">
+            {room.data.photos.slice(1).map((ph) => (
+              <figure>
+                <Photo src={ph.src} alt={ph.alt} sizes="(min-width: 60rem) 24rem, 72vw" />
+              </figure>
+            ))}
+          </div>
+        </div>
+        <div class="text">
+          <h2>{room.data.name}</h2>
+          <div class="prose"><Content /></div>
+          <p class="quiet small">Sleeps {room.data.sleeps.toLowerCase()}{room.data.size ? ` · ${room.data.size}` : ''}</p>
+        </div>
+      </section>
+    </>
+  ))}
+
+  <Seam />
+
+  <section class="text">
+    <p>Breakfast is included. Lunch and dinner are cooked here if you'd like them. Check-in is from 2 pm, check-out by 11 am. There's more on the <a href="/getting-here/">getting here</a> page.</p>
+    <p><a class="say" href={whatsappLink()}>Write to us on WhatsApp</a></p>
+  </section>
+</Base>
+
+<style>
+  .room { scroll-margin-top: 1rem; }
+  /* Phones: one big photo, then a row you can swipe. Wider screens: a grid. */
+  .gallery { margin-bottom: 2rem; }
+  .gallery :global(img) { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+  .strip {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 72%;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+  .strip figure { scroll-snap-align: start; }
+  @media (min-width: 60rem) {
+    .first :global(img) { aspect-ratio: 16 / 9; }
+    .strip { grid-auto-flow: row; grid-template-columns: repeat(3, 1fr); overflow: visible; }
+  }
+</style>

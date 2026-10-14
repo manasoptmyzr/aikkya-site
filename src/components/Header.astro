@@ -1,0 +1,22 @@
+---
+const links = [
+  { href: '/stay/', label: 'Stay' },
+  { href: '/journal/', label: 'Life at Aikkya' },
+  { href: '/us/', label: 'Us' },
+  { href: '/kind-words/', label: 'Kind words' },
+  { href: '/getting-here/', label: 'Getting here' },
+  { href: '/say-hello/', label: 'Say hello' },
+];
+const path = Astro.url.pathname.replace(/\/?$/, '/');
+const current = (href: string) => path === href || (href !== '/' && path.startsWith(href));
+---
+<header class="top">
+  <a class="mark" href="/">Aikkya</a>
+  <nav aria-label="Main">
+    <ul>
+      {links.map((l) => (
+        <li><a href={l.href} aria-current={current(l.href) ? 'page' : undefined}>{l.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+</header>

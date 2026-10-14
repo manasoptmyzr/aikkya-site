@@ -1,0 +1,116 @@
+# What guests have written about Aikkya, copied word for word from their reviews.
+# Trim with "…" if a review is long, but never change what someone said.
+# featured: true puts a quote on the home page too.
+# Quotes show in this order (by the number at the start).
+
+01-rahul-2024:
+  name: Rahul
+  when: October 2024
+  where: Airbnb
+  featured: true
+  words: >-
+    Shivani and Avijeet have created an incredible space in the mountains, and it
+    is generous of them to let people in. It's simple, high on minimalist
+    aesthetic, perfect for a restorative getaway.
+
+02-shuchi-2024:
+  name: Shuchi
+  when: December 2024
+  where: Airbnb
+  featured: true
+  words: >-
+    You will find many homestays in Kumaon but Aikkya farms is a home to stay in.
+    … Avijeet has a doctorate in making cocktails - unconventional, innovative and
+    really hits the spot.
+
+03-budhaditya-2022:
+  name: Budhaditya
+  when: October 2022
+  where: Airbnb
+  featured: true
+  words: >-
+    Our little holiday in Aikkya is just what our city-weary eyes and soul needed.
+    Located on a quiet hillside with magnificent views, you can spend hours looking
+    at the play of sun and clouds or listening to birdcall.
+
+04-akansha-2022:
+  name: Akansha
+  when: December 2022
+  where: Airbnb
+  words: >-
+    When I went to Aikkya I felt I am going to someone's home and after spending
+    two days there I started to feel like I know the people who have created this
+    space (and that's when I didn't even meet them), because every inch of Aikkya
+    speaks of them.
+
+05-supriya-2025:
+  name: Supriya
+  when: January 2025
+  where: Airbnb
+  words: >-
+    We liked the fact that their cottages are built with local building
+    techniques, are sustainable and still have the modern amenities and comforts.
+    We especially loved the common lounge/dining area with it's wood burning
+    stove. It's the ideal place to chill, get to meet the other guests, eat and
+    drink.
+
+06-neelaksh-2023:
+  name: Neelaksh
+  when: June 2023
+  where: Airbnb
+  words: >-
+    If you're lucky you'll find freshly made plum, apricot jams and chutneys too
+    at the property too (they are all sourced from the farm)! Ask for Gin-Jeera
+    cocktail on a sunny Seetla afternoon and thank me later.
+
+07-pratham-2022:
+  name: Pratham
+  when: December 2022
+  where: Airbnb
+  words: >-
+    The detailing is exquisite, you can spend a day just spotting little wonders
+    in the design.
+
+08-trupthi-2023:
+  name: Trupthi
+  when: January 2023
+  where: Airbnb
+  words: >-
+    We enjoyed sitting in the sun room and reading on cold winter mornings and
+    walking around the mountains.
+
+09-aakriti-2024:
+  name: Aakriti
+  when: August 2024
+  where: Airbnb
+  words: >-
+    Initially we were worried that the way to the place would may have been
+    impacted by heavy rains/ landslides but we did not face any difficulty
+    reaching the place, infact we would 100% recommend booking this place during
+    monsoons to witness the beautiful valley and sunset views.
+
+10-brooke-2023:
+  name: Brooke
+  when: January 2023
+  where: Airbnb
+  words: >-
+    The property is gorgeous and we went on a beautiful day hike through the local
+    villages, had lunch with a local family and spent the rest of the time
+    exploring the property, and hanging in the evenings by the cozy fireplace with
+    the sweetest dogs.
+
+11-archana-2023:
+  name: Archana
+  when: December 2023
+  where: Airbnb
+  words: >-
+    Thank you, great cooks, photographers, musicians, best song curators, space
+    designers, nature lovers, and thoughtful friends.
+
+12-bhaskar-2022:
+  name: Bhaskar
+  when: March 2022
+  where: Airbnb
+  words: >-
+    The sunsets are spectacular (yes the sunset photograph on the page is real and
+    not photoshopped …) and the full moon nights are only dreamier.

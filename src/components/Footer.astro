@@ -1,0 +1,22 @@
+---
+import { site, whatsappLink } from '../site';
+const a = site.address;
+---
+<footer class="foot">
+  <div class="wide">
+    <div class="cols">
+      <div>
+        <p class="name">{site.name} <span class="indic">{site.scripts.hindi} · {site.scripts.bangla}</span></p>
+        <p>{a.street}, {a.locality}</p>
+        <p>{a.district} district, {a.region} {a.postalCode}</p>
+        <p><a href={site.mapUrl}>Open in Google Maps</a></p>
+      </div>
+      <div>
+        <p>Shivani and Avijeet</p>
+        <p><a href={whatsappLink()}>WhatsApp {site.phone}</a></p>
+        <p><a href={site.instagram}>Instagram {site.instagramHandle}</a></p>
+      </div>
+    </div>
+    <p class="fine">This site has no cookies and no trackers.</p>
+  </div>
+</footer>

@@ -1,0 +1,119 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import Seam from '../components/Seam.astro';
+import { site, whatsappLink } from '../site';
+import { lodging } from '../schema';
+import { formatDate, excerpt, journalPosts, postUrl, inOrder } from '../util';
+import dusk from '../assets/photos/cottage-dusk.jpg';
+import sunset from '../assets/photos/sunset-roofs.jpg';
+import bottle from '../assets/photos/kintsugi-bath-mirror.jpg';
+
+const rooms = (await getCollection('rooms')).sort((a, b) => a.data.order - b.data.order);
+const posts = (await journalPosts()).slice(0, 3);
+const words = (await inOrder('kindWords')).filter((w) => w.data.featured);
+const press = await inOrder('press');
+---
+<Base schema={lodging(rooms.map((r) => r.data))}>
+  <figure class="hero">
+    <Photo src={dusk} alt="One of the stone houses at Aikkya just after sunset, lit from inside, with the hills behind" sizes="100vw" priority />
+  </figure>
+
+  <section class="text intro">
+    <h1>Aikkya <span class="indic scripts" lang="hi">{site.scripts.hindi}</span> <span class="indic scripts" lang="bn">{site.scripts.bangla}</span></h1>
+    <p class="lede">A farm on a quiet hillside in Seetla, Kumaon. Seven and a half acres of fruit trees and forest, a few old stone houses we restored, an A-frame, and a lot of sky. Cows, dogs, and sometimes a cat named Billi.</p>
+    <p>We're Shivani and Avijeet. We live here, and a few guests at a time stay with us.</p>
+  </section>
+
+  <Seam />
+
+  <section class="wide rooms">
+    <h2><a href="/stay/">Stay</a></h2>
+    <div class="room-grid">
+      {rooms.map((r, i) => (
+        <figure class={`room room-${i}`}>
+          <a href={`/stay/#${r.id}`} tabindex="-1" aria-hidden="true">
+            <Photo src={r.data.photos[0].src} alt={r.data.photos[0].alt} sizes={i === 0 ? '(min-width: 60rem) 45rem, 100vw' : '(min-width: 60rem) 28rem, 100vw'} />
+          </a>
+          <figcaption><a href={`/stay/#${r.id}`}>{r.data.name}</a>. {r.data.line}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </section>
+
+  <section class="text">
+    <p>Most of what's here is old. Stone walls, wooden doors and beams, and floors painted to look broken and mended. We would rather mend a thing than replace it.</p>
+  </section>
+
+  <div class="wide pair">
+    <figure><Photo src={sunset} alt="Sunset over the slate roof of a stone house, with the hills behind" sizes="(min-width: 60rem) 36rem, 100vw" /></figure>
+    <figure><Photo src={bottle} alt="A blue glass bottle in a niche in a whitewashed wall, next to a pebble-shaped mirror" sizes="(min-width: 60rem) 36rem, 100vw" /></figure>
+  </div>
+
+  <section class="text journal">
+    <h2><a href="/journal/">Life at Aikkya</a></h2>
+    <ul class="posts">
+      {posts.map((p) => (
+        <li>
+          <a href={postUrl(p.id)}>{p.data.title}</a>
+          <span class="quiet small"> · {formatDate(p.data.date)}</span>
+          <p class="quiet">{excerpt(p.body)}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <Seam />
+
+  <section class="text words">
+    <h2><a href="/kind-words/">Kind words</a></h2>
+    {words.map((w) => (
+      <blockquote>
+        <p>{w.data.words}</p>
+        <footer class="quiet small">{w.data.name}, {w.data.when}</footer>
+      </blockquote>
+    ))}
+    <p class="quiet small">Written about in {press.map((p) => p.data.outlet).join(', ').replace(/, ([^,]*)$/, ' and $1')}.</p>
+  </section>
+
+  <section class="text hello">
+    <h2>Say hello</h2>
+    <p>There's no booking button. We'd like to know a little about you first, and you about us. Write to us on WhatsApp and tell us who you are, roughly when you'd like to come, and what brings you here.</p>
+    <p><a class="say" href={whatsappLink()}>Write to us on WhatsApp</a></p>
+  </section>
+</Base>
+
+<style>
+  .hero :global(img) { width: 100%; height: min(86vh, 64vw); min-height: 22rem; object-fit: cover; object-position: center 58%; }
+  .intro { margin-top: clamp(2.5rem, 6vw, 4.5rem); }
+  .intro h1 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.5em; }
+  .scripts { font-size: 0.42em; color: var(--ink-soft); }
+  .lede { font-size: 1.2em; line-height: 1.5; }
+
+  h2 a { color: inherit; text-decoration: none; }
+  h2 a:hover { color: var(--rug); }
+
+  .room-grid { display: grid; gap: 2rem 1.5rem; }
+  .room :global(img) { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+  @media (min-width: 60rem) {
+    .room-grid { grid-template-columns: 1.6fr 1fr; }
+    .room-0 { grid-row: span 2; display: flex; flex-direction: column; }
+    .room-0 > a { flex: 1; display: block; position: relative; min-height: 20rem; }
+    .room-0 :global(img) { position: absolute; inset: 0; height: 100%; aspect-ratio: auto; }
+  }
+
+  .pair { display: grid; gap: 1.5rem; grid-template-columns: 1fr 1fr; align-items: start; }
+  .pair figure:last-child { margin-top: clamp(2rem, 8vw, 6rem); }
+  .pair :global(img) { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
+
+  .posts { list-style: none; padding: 0; margin: 0; }
+  .posts li { margin-bottom: 1.5rem; }
+  .posts li > a { font-size: 1.25em; }
+  .posts p { margin: 0.25rem 0 0; }
+
+  blockquote { margin: 0 0 2rem; padding: 0; }
+  blockquote p { font-style: italic; font-size: 1.1em; margin-bottom: 0.3rem; }
+  blockquote p::before { content: '\201C'; }
+  blockquote p::after { content: '\201D'; }
+</style>

@@ -1,0 +1,40 @@
+---
+import Base from '../../layouts/Base.astro';
+import Photo from '../../components/Photo.astro';
+import { site } from '../../site';
+import { formatDate, excerpt, journalPosts, postUrl } from '../../util';
+
+const posts = await journalPosts();
+---
+<Base title="Life at Aikkya" description="Notes from Shivani and Avijeet about life on the farm at Aikkya, in Seetla, Kumaon: the seasons, the animals, the food, and the people who come to stay.">
+  <div class="text page-head">
+    <h1>Life at Aikkya</h1>
+    <p class="quiet">Notes from the hill. Most of these began as posts on <a href={site.instagram}>Instagram</a>.</p>
+  </div>
+
+  <ol class="text list">
+    {posts.map((p) => (
+      <li>
+        {p.data.photo && (
+          <a href={postUrl(p.id)} tabindex="-1" aria-hidden="true" class="thumb">
+            <Photo src={p.data.photo} alt="" sizes="(min-width: 40rem) 36rem, 100vw" />
+          </a>
+        )}
+        <p class="quiet small date">{formatDate(p.data.date)}</p>
+        <h2><a href={postUrl(p.id)}>{p.data.title}</a></h2>
+        <p>{excerpt(p.body, 240)}</p>
+      </li>
+    ))}
+  </ol>
+</Base>
+
+<style>
+  .list { list-style: none; margin-top: 2rem; }
+  .list li { margin-bottom: clamp(3rem, 7vw, 4.5rem); }
+  .thumb { display: block; margin-bottom: 1rem; }
+  .thumb :global(img) { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+  .date { margin-bottom: 0.25rem; }
+  h2 { margin-bottom: 0.4em; }
+  h2 a { color: inherit; text-decoration: none; }
+  h2 a:hover { color: var(--rug); }
+</style>

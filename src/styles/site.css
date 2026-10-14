@@ -1,0 +1,164 @@
+/* Colours taken from the place: whitewash, stone, pine, the blue glass bottle,
+   the gold in the floor's cracks, the rug, and the sky just after sunset. */
+:root {
+  --lime: #f5f1e8;
+  --lime-deep: #ebe4d6;
+  --ink: #2a2520;
+  --ink-soft: #5e564d;
+  --gold: #b08a3e;
+  --pine: #a8682f;
+  --glass: #1d6a70;
+  --rug: #a9502e;
+  --dusk: #2e2c42;
+  --dusk-text: #e8e2d4;
+
+  --serif: 'Newsreader Variable', 'Tiro Devanagari Hindi', 'Tiro Bangla', Georgia, serif;
+  --indic: 'Tiro Devanagari Hindi', 'Tiro Bangla', serif;
+
+  --text: 36rem;
+  --wide: 74rem;
+  --gutter: clamp(1rem, 4vw, 2.5rem);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--lime);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-optical-sizing: auto;
+  font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  line-height: 1.6;
+  font-variant-numeric: oldstyle-nums proportional-nums;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, picture, svg { display: block; max-width: 100%; height: auto; }
+
+a { color: var(--glass); text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+a:hover { color: var(--rug); }
+
+h1, h2, h3 {
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.6em;
+  text-wrap: balance;
+}
+h1 { font-size: clamp(2.4rem, 1.6rem + 3.4vw, 4.4rem); font-weight: 350; }
+h2 { font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.3rem); }
+h3 { font-size: 1.3rem; }
+
+p { margin: 0 0 1em; text-wrap: pretty; }
+
+.text { max-width: var(--text); margin-inline: auto; padding-inline: var(--gutter); }
+.wide { max-width: var(--wide); margin-inline: auto; padding-inline: var(--gutter); }
+
+.quiet { color: var(--ink-soft); }
+.small { font-size: 0.875em; }
+.italic { font-style: italic; }
+.indic { font-family: var(--indic); font-style: normal; }
+
+section { margin-block: clamp(3.5rem, 8vw, 7rem); }
+
+/* Header */
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+  padding: 1.25rem var(--gutter);
+  max-width: var(--wide);
+  margin-inline: auto;
+}
+.mark {
+  font-size: 1.5rem;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+.mark:hover { color: var(--ink); }
+.top nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.4rem;
+  font-size: 1rem;
+}
+.top nav a { color: var(--ink); text-decoration: none; }
+.top nav a:hover, .top nav a[aria-current='page'] { color: var(--rug); }
+.top nav a[aria-current='page'] { text-decoration: underline; text-decoration-color: var(--gold); }
+
+/* Photos */
+figure { margin: 0; }
+figcaption {
+  font-style: italic;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  line-height: 1.4;
+}
+.bleed img { width: 100%; }
+
+/* Page headings */
+.page-head { padding-top: clamp(2rem, 6vw, 4.5rem); }
+.page-head h1 { margin-bottom: 0.4em; }
+
+/* Long-form text (journal posts, room descriptions) */
+.prose ul { padding-left: 1.2em; margin: 0 0 1em; }
+.prose li { margin-bottom: 0.4em; }
+.prose img { margin-block: 1.5rem; width: 100%; }
+/* Photos placed one after another in a post sit side by side. */
+.prose p:has(img + img) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 0.75rem;
+  margin-block: 1.5rem;
+}
+.prose p:has(img + img) img { margin: 0; aspect-ratio: 3 / 4; object-fit: cover; }
+
+/* Footer */
+.foot {
+  background: var(--dusk);
+  color: var(--dusk-text);
+  margin-top: clamp(4rem, 10vw, 8rem);
+  padding: clamp(2.5rem, 6vw, 4rem) 0 2.5rem;
+  font-size: 0.95rem;
+}
+.foot a { color: var(--dusk-text); }
+.foot a:hover { color: #fff; }
+.foot .cols {
+  display: grid;
+  gap: 1.75rem 3rem;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+}
+.foot p { margin: 0 0 0.35rem; }
+.foot .name { font-size: 1.6rem; margin-bottom: 0.5rem; }
+.foot .fine { margin-top: 2.5rem; opacity: 0.7; font-size: 0.85rem; }
+
+/* WhatsApp button: plain, no icon */
+.say {
+  display: inline-block;
+  padding: 0.7em 1.3em;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 1.05rem;
+}
+.say:hover { background: var(--ink); color: var(--lime); }
+
+:focus-visible { outline: 2px solid var(--glass); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  a, .say { transition: color 0.15s, background-color 0.15s; }
+}

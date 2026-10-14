@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import Seam from '../components/Seam.astro';
+import { site } from '../site';
+import evening from '../assets/photos/house-evening.jpg';
+import turiya from '../assets/photos/turiya-evening.jpg';
+---
+<Base title="Us" description="Shivani and Avijeet left careers in corporate banking and design to live on a hillside in Seetla, Kumaon, where they run Aikkya and host a few guests at a time.">
+  <div class="text page-head">
+    <h1>Us</h1>
+    <p>We're Shivani and Avijeet. Shivani worked in corporate banking and Avijeet in design. There wasn't one moment when we sat down and decided to move to the mountains. It was something both of us had carried quietly for years, and one day we did it.</p>
+    <p>Aikkya is on a hillside in Seetla, above Mukteshwar. Ours is the only home on the hill, with seven and a half acres of orchard and forest around it. We've lived through six monsoons here now, and none of them has made us doubt it.</p>
+  </div>
+
+  <figure class="wide photo">
+    <Photo src={evening} alt="A two-storey stone house at Aikkya in the evening, its windows lit, with the forest behind" />
+  </figure>
+
+  <section class="text">
+    <h2>The name</h2>
+    <p>Aikkya, <span class="indic" lang="hi">{site.scripts.hindi}</span> in Hindi and <span class="indic" lang="bn">{site.scripts.bangla}</span> in Bangla, means oneness. A guest once put it better than we could: every corner of the place reflects "being Aikkya with nature".</p>
+  </section>
+
+  <Seam />
+
+  <section class="text">
+    <h2>How we live</h2>
+    <p>The oldest cottages here are about eighty years old, with stone walls and the traditional mud-fixed stone roofs. We restored them rather than build new. Most of what you'll see is old: stone, wooden doors and beams, and floors painted to look broken and mended. We would rather mend a thing than replace it.</p>
+    <p>Food comes from the farm and the villages around us where it can. Water is scarce on a hilltop, so we're careful with it, and we ask our guests to be careful too. The occasional leak in an old roof is part of life.</p>
+    <p>We lean on the people around us. In the mountains you get to know your electrician, your plumber and your carpenter, and over time they become much more than that.</p>
+    <p>Aikkya isn't a business we're trying to grow. What this life has given us is time: to think, to make things, to be with family, and to live at a pace that feels right. We keep it small so it stays that way.</p>
+  </section>
+
+  <figure class="text photo">
+    <Photo src={turiya} alt="Turiya, an open pavilion with a bamboo and glass roof, cane chairs and a glass-walled room at the back" sizes="(min-width: 40rem) 36rem, 100vw" />
+  </figure>
+
+  <section class="text">
+    <h2>Turiya</h2>
+    <p>Turiya is a space at Aikkya for doing things, and for doing nothing at all. We gather there for music, art, some form of meditation, or a conversation that wanders well beyond where it began. <a href="/journal/2026-09-28-turiya/">More about Turiya</a>.</p>
+  </section>
+
+  <section class="text">
+    <h2>Who else lives here</h2>
+    <p>The dogs, who guests tend to remember by name. The cows, who call in the mornings. And sometimes a cat named Billi.</p>
+    <p>There's more of all of it on <a href={site.instagram}>Instagram</a>.</p>
+  </section>
+</Base>
+
+<style>
+  .photo { margin-block: clamp(2rem, 6vw, 4rem); }
+  .photo :global(img) { width: 100%; }
+</style>

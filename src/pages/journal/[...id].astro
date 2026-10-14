@@ -1,0 +1,63 @@
+---
+import { render } from 'astro:content';
+import { getImage } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Photo from '../../components/Photo.astro';
+import Seam from '../../components/Seam.astro';
+import { post as postSchema } from '../../schema';
+import { formatDate, excerpt, journalPosts, postUrl } from '../../util';
+
+export async function getStaticPaths() {
+  const posts = await journalPosts();
+  return posts.map((post, i) => ({
+    params: { id: post.id },
+    props: { post, newer: posts[i - 1], older: posts[i + 1] },
+  }));
+}
+
+const { post, newer, older } = Astro.props;
+const { Content } = await render(post);
+const share = post.data.photo ? (await getImage({ src: post.data.photo, width: 1200, format: 'jpg' })).src : undefined;
+const url = new URL(postUrl(post.id), Astro.site).href;
+---
+<Base
+  title={post.data.title}
+  description={excerpt(post.body, 160)}
+  image={share}
+  schema={postSchema({ title: post.data.title, date: post.data.date, url, image: share && new URL(share, Astro.site).href })}
+>
+  <article>
+    <header class="text page-head">
+      <p class="quiet small">{formatDate(post.data.date)}</p>
+      <h1>{post.data.title}</h1>
+    </header>
+
+    {post.data.photo && (
+      <figure class={post.data.photo.width >= 1600 ? 'wide lead' : 'text lead'}>
+        <Photo src={post.data.photo} alt={post.data.photoAlt ?? ''} priority />
+      </figure>
+    )}
+
+    <div class="text prose">
+      <Content />
+      {post.data.instagram && (
+        <p class="quiet small ig">First posted on <a href={post.data.instagram}>Instagram</a>.</p>
+      )}
+    </div>
+  </article>
+
+  <Seam />
+
+  <nav class="text more" aria-label="More from the journal">
+    {newer && <p>Newer: <a href={postUrl(newer.id)}>{newer.data.title}</a></p>}
+    {older && <p>Older: <a href={postUrl(older.id)}>{older.data.title}</a></p>}
+    <p><a href="/journal/">All of Life at Aikkya</a></p>
+  </nav>
+</Base>
+
+<style>
+  .lead { margin-bottom: 2.5rem; }
+  .lead :global(img) { width: 100%; max-height: 85vh; object-fit: cover; }
+  .ig { margin-top: 2.5rem; }
+  .more p { margin-bottom: 0.4rem; }
+</style>

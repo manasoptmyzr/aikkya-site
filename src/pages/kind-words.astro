@@ -1,0 +1,51 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Seam from '../components/Seam.astro';
+import { inOrder } from '../util';
+import { site } from '../site';
+
+const words = await inOrder('kindWords');
+const press = await inOrder('press');
+---
+<Base title="Kind words" description="What guests have written about staying at Aikkya with Shivani and Avijeet, and where Aikkya has been in the news.">
+  <div class="text page-head">
+    <h1>Kind words</h1>
+    <p class="quiet">From people who have stayed with us, word for word.</p>
+  </div>
+
+  <div class="wide quotes">
+    {words.map((w) => (
+      <blockquote>
+        <p>{w.data.words}</p>
+        <footer class="quiet small">{w.data.name}, {w.data.when}, on {w.data.where}</footer>
+      </blockquote>
+    ))}
+  </div>
+
+  <p class="text quiet small">There are more on <a href={site.mapUrl}>Google</a> and <a href="https://www.airbnb.co.in/rooms/53898656">Airbnb</a>.</p>
+
+  <Seam />
+
+  <section class="text" id="news">
+    <h2>In the news</h2>
+    <ul class="press">
+      {press.map((p) => (
+        <li>
+          {p.data.link ? <a href={p.data.link}>{p.data.outlet}</a> : <span>{p.data.outlet}</span>}
+          <span class="quiet">, {p.data.when}.</span> {p.data.about}
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .quotes { columns: 20rem 2; column-gap: 3rem; margin-top: 2rem; }
+  blockquote { break-inside: avoid; margin: 0 0 2.25rem; }
+  blockquote p { font-style: italic; margin-bottom: 0.3rem; }
+  blockquote p::before { content: '\201C'; }
+  blockquote p::after { content: '\201D'; }
+  .press { list-style: none; padding: 0; }
+  .press li { margin-bottom: 1rem; }
+</style>

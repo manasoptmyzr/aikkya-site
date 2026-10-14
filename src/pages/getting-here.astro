@@ -1,0 +1,48 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Seam from '../components/Seam.astro';
+import { inOrder } from '../util';
+import { site, rupees } from '../site';
+import { faq } from '../schema';
+
+const p = site.prices;
+const questions = [
+  ...(await inOrder('questions')).map((q) => q.data),
+  {
+    q: 'How much does it cost?',
+    a: `${rupees(p.wabiSabi)} a night for Wabi or Sabi, ${rupees(p.kintsugi)} for Kintsugi or the A-frame. That's for two, with breakfast. A third person in the same room is ${rupees(p.extraGuest)} a night.`,
+  },
+  {
+    q: 'How do we book?',
+    a: "Write to us on WhatsApp and tell us a little about yourselves. Aikkya is our home and we host a few people at a time, so we like to talk first.",
+  },
+];
+const a = site.address;
+---
+<Base title="Getting here" description="How to reach Aikkya in Seetla, near Mukteshwar in Kumaon, and answers to the questions people ask before they come." schema={faq(questions)}>
+  <div class="text page-head">
+    <h1>Getting here</h1>
+    <p>Aikkya Farms, {a.street}, {a.locality}, {a.district} district, {a.region} {a.postalCode}.</p>
+    <p><a href={site.mapUrl}>Open in Google Maps</a></p>
+  </div>
+
+  <Seam />
+
+  <section class="text">
+    <h2>Questions people ask</h2>
+    <dl class="qa">
+      {questions.map((item) => (
+        <>
+          <dt>{item.q}</dt>
+          <dd>{item.a}</dd>
+        </>
+      ))}
+    </dl>
+  </section>
+</Base>
+
+<style>
+  .qa dt { font-size: 1.15em; margin-top: 1.75rem; }
+  .qa dd { margin: 0.3rem 0 0; }
+</style>
