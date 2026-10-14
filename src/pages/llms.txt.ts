@@ -3,14 +3,13 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { site, rupees } from '../site';
-import { journalPosts, postUrl, inOrder } from '../util';
+import { inOrder } from '../util';
 
 export const GET: APIRoute = async ({ site: base }) => {
   const url = (path: string) => new URL(path, base).href;
   const rooms = (await getCollection('rooms')).sort((a, b) => a.data.order - b.data.order);
   const questions = await inOrder('questions');
   const press = await inOrder('press');
-  const posts = await journalPosts();
   const p = site.prices;
   const a = site.address;
 
@@ -35,14 +34,9 @@ ${questions.map((q) => `- ${q.data.q} ${q.data.a}`).join('\n')}
 ${press.map((n) => `- ${n.data.outlet}, ${n.data.when}: ${n.data.about}`).join('\n')}
 
 ## Pages
-- [Stay](${url('/stay/')})
-- [Us](${url('/us/')})
-- [Kind words from guests](${url('/kind-words/')})
-- [Getting here and questions](${url('/getting-here/')})
-- [Say hello](${url('/say-hello/')})
+Every page is also available as plain markdown: add index.md to its address (for example ${url('/stay/index.md')}). All pages in one file: ${url('/llms-full.txt')}
 
-## Life at Aikkya (journal)
-${posts.map((post) => `- [${post.data.title}](${url(postUrl(post.id))})`).join('\n')}
+<!-- pages -->
 `;
 
   return new Response(text, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });

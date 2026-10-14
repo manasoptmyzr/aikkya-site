@@ -18,5 +18,9 @@
     "@fontsource/tiro-bangla": "5.3.0",
     "@fontsource/tiro-devanagari-hindi": "5.3.0",
     "astro": "7.3.8"
+  },
+  "devDependencies": {
+    "node-html-parser": "9.0.4",
+    "turndown": "7.2.4"
   }
 }

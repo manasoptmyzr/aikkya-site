@@ -33,3 +33,17 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v5
+
+  # Tells Bing (and the other IndexNow search engines) which pages exist, so
+  # changes reach Bing (which ChatGPT search and Copilot use) sooner.
+  # If it fails (for example before the domain is connected), the site is still live.
+  notify:
+    needs: deploy
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - run: |
+          urls=$(curl -fsSL https://aikkya.com/sitemap-0.xml | grep -o '<loc>[^<]*' | sed 's/<loc>//' | jq -R . | jq -sc .)
+          curl -fsS -X POST https://api.indexnow.org/indexnow \
+            -H 'Content-Type: application/json; charset=utf-8' \
+            -d "{\"host\":\"aikkya.com\",\"key\":\"b56aa06014ef120a25d9bcb3623bfcf5\",\"keyLocation\":\"https://aikkya.com/b56aa06014ef120a25d9bcb3623bfcf5.txt\",\"urlList\":$urls}"

@@ -7,19 +7,28 @@ import '../styles/site.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { site } from '../site';
+import { lodging, website } from '../schema';
 
 interface Props {
   title?: string;
   description?: string;
   image?: string;
   schema?: object | object[];
+  published?: Date;
 }
 
-const { title, description = site.description, image = '/og.jpg', schema } = Astro.props;
-const fullTitle = title ? `${title} · ${site.fullName}` : `${site.fullName}, Seetla, Kumaon`;
-const canonical = new URL(Astro.url.pathname, Astro.site);
+const { title, description = site.description, image = '/og.jpg', schema, published } = Astro.props;
+const fullTitle = title ? `${title} · ${site.fullName}` : `${site.fullName} · farm stay in Seetla, near Mukteshwar`;
+const path = Astro.url.pathname.replace(/\/?$/, '/');
+const canonical = new URL(path, Astro.site);
 const ogImage = new URL(image, Astro.site);
-const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
+const notFound = Astro.url.pathname.startsWith('/404');
+
+// Every page carries the facts about Aikkya, so a search engine or AI tool
+// landing on any one page knows what and where it is.
+const pageSchemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
+const hasLodging = pageSchemas.some((s: any) => s['@type'] === 'BedAndBreakfast');
+const schemas = notFound ? [] : [website(), ...(hasLodging ? [] : [lodging()]), ...pageSchemas];
 ---
 <!doctype html>
 <html lang="en-IN">
@@ -28,19 +37,23 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {!notFound && <link rel="canonical" href={canonical} />}
+    {!notFound && <link rel="alternate" type="text/markdown" href={`${path}index.md`} title="This page as plain text" />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate" type="application/rss+xml" title="Life at Aikkya" href="/journal/rss.xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="theme-color" content="#f5f1e8" />
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={published ? 'article' : 'website'} />
+    <meta property="og:locale" content="en_IN" />
+    {published && <meta property="article:published_time" content={published.toISOString().slice(0, 10)} />}
     <meta property="og:site_name" content={site.fullName} />
     <meta property="og:title" content={title ?? site.fullName} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
     <meta name="twitter:card" content="summary_large_image" />
+    {notFound && <meta name="robots" content="noindex" />}
 
     {schemas.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
   </head>

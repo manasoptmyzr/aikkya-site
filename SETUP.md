@@ -69,7 +69,9 @@ No nameserver move is needed.
 - **Instagram bio:** add `aikkya.com`.
 - **Google Search Console:** add a Domain property for `aikkya.com` (TXT record at GoDaddy) and submit `https://aikkya.com/sitemap-index.xml`.
 - **Bing Webmaster Tools:** import the site from Search Console and submit the same sitemap. Bing's index is what ChatGPT search and Copilot use.
-- **Check** `https://aikkya.com/llms.txt` shows the summary.
+- **Check** `https://aikkya.com/llms.txt` shows the summary and the page list, and `https://aikkya.com/stay/index.md` shows a page as plain text.
+- **IndexNow:** nothing to set up. After each publish the workflow tells Bing and the other IndexNow engines about the pages, using the key file in `public/`. That step is allowed to fail (for example before DNS is connected) without affecting the site.
+- **robots.txt** allows every crawler and says, through Content-Signal, that the content may be used for search, for AI answers and for training. That suits the goal of being visible to AI tools; if they'd rather not have it used for training, change `ai-train=yes` to `ai-train=no`.
 
 ## What's where
 

@@ -1,5 +1,8 @@
 # Everyone is welcome to read this site, including search engines and AI assistants.
+# Content-Signal says how the content may be used (contentsignals.org):
+# appearing in search, being used to answer people's questions, and training.
 User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 Sitemap: https://aikkya.com/sitemap-index.xml

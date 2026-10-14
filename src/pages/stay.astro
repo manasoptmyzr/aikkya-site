@@ -11,7 +11,7 @@ const rendered = await Promise.all(rooms.map(async (r) => ({ room: r, Content: (
 const p = site.prices;
 ---
 <Base
-  title="Stay"
+  title="Rooms and prices"
   description={`Where you'd stay at Aikkya: Kintsugi, A-Frame of Mind, and the Wabi and Sabi suites. ${rupees(p.wabiSabi)} to ${rupees(p.kintsugi)} a night for two, with breakfast.`}
   schema={lodging(rooms.map((r) => r.data))}
 >

@@ -4,7 +4,7 @@ import { getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import Photo from '../../components/Photo.astro';
 import Seam from '../../components/Seam.astro';
-import { post as postSchema } from '../../schema';
+import { post as postSchema, breadcrumbs } from '../../schema';
 import { formatDate, excerpt, journalPosts, postUrl } from '../../util';
 
 export async function getStaticPaths() {
@@ -19,12 +19,21 @@ const { post, newer, older } = Astro.props;
 const { Content } = await render(post);
 const share = post.data.photo ? (await getImage({ src: post.data.photo, width: 1200, format: 'jpg' })).src : undefined;
 const url = new URL(postUrl(post.id), Astro.site).href;
+const description = excerpt(post.body, 160);
 ---
 <Base
   title={post.data.title}
-  description={excerpt(post.body, 160)}
+  description={description}
   image={share}
-  schema={postSchema({ title: post.data.title, date: post.data.date, url, image: share && new URL(share, Astro.site).href })}
+  published={post.data.date}
+  schema={[
+    postSchema({ title: post.data.title, date: post.data.date, url, description, image: share && new URL(share, Astro.site).href }),
+    breadcrumbs([
+      { name: 'Aikkya', path: '/' },
+      { name: 'Life at Aikkya', path: '/journal/' },
+      { name: post.data.title, path: postUrl(post.id) },
+    ]),
+  ]}
 >
   <article>
     <header class="text page-head">

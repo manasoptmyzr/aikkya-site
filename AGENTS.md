@@ -37,11 +37,31 @@ Aikkya is a home, not a hotel. They screen their guests, and they aren't trying 
 | Text on the home, Us, Stay and Say hello pages | `src/pages/index.astro`, `us.astro`, `stay.astro`, `say-hello.astro` |
 | Photos used on pages | `src/assets/photos/` |
 | Colours and type | `src/styles/site.css` |
+| The faint cracked-plaster background | `public/kintsugi.svg`, drawn by `scripts/make-kintsugi.mjs` (change the numbers at the top and run `node scripts/make-kintsugi.mjs`) |
 | Things still to check with Shivani and Avijeet | `TO-CONFIRM.md` |
 
-These build themselves from the files above, so don't edit them by hand: `/llms.txt` (a summary for AI assistants), the sitemap, the journal RSS feed, and the structured data search engines read.
+These build themselves from the files above, so don't edit them by hand: `/llms.txt` (a summary for AI assistants), `/llms-full.txt` (every page as plain text), a markdown copy of every page (`/stay/index.md`), the sitemap, the journal RSS feed, and the structured data search engines read.
 
 In the YAML files, entries show in the order of the number at the start of their name (`01-…`, `02-…`). Give a new entry the next number, or renumber if they want it higher up.
+
+## Search engines and AI tools: built in
+
+The site is set up so search engines and AI assistants (ChatGPT, Claude, Perplexity, Google) can read it properly, and every new page or post gets the same treatment automatically. Don't undo any of this.
+
+What happens on every build (`integrations/seo-ai.mjs`):
+- Every page is checked. The build stops, with a plain list of what to fix, if a page has no title, no description, more or fewer than one main heading, a photo without a description, a link to a page that doesn't exist, a script or embed from another site, broken structured data, or the words "book now". Long titles or descriptions only get a warning.
+- A markdown copy of every page is written next to it, all pages are joined into `/llms-full.txt`, and the page list in `/llms.txt` is filled in.
+
+Also automatic: the facts about Aikkya (address, map location, rooms, prices, hosts) go into structured data on every page from `src/site.ts`; journal posts get article data, breadcrumbs and their date in the sitemap; and after each publish, Bing and the other IndexNow search engines are told about the pages.
+
+When writing, help search and AI tools by being plain and specific:
+- Give each post a clear title that says what it's about, and describe every photo in plain words.
+- Name places where they belong naturally (Seetla, Mukteshwar, Kumaon, Nainital). Never stuff keywords.
+- Facts go in one place (`src/site.ts`, the YAML files), so the site, `/llms.txt` and the structured data never disagree.
+
+### Adding a new page
+
+Make `src/pages/<name>.astro` using the `Base` layout with a `title` and a `description` (50 to 160 characters), exactly one `<h1>`, and add it to the menu in `src/components/Header.astro`. The sitemap, markdown copy, llms.txt entry and checks happen by themselves.
 
 ## Common jobs
 
@@ -124,13 +144,13 @@ Every publish is kept. To undo the last one: `git revert HEAD --no-edit`, then `
 
 ## Don't change without Manas
 
-- `public/CNAME` (the domain), `.github/workflows/` (publishing), `astro.config.mjs`, `package.json`.
+- `public/CNAME` (the domain), `public/robots.txt`, the IndexNow key file (`public/<32 letters and numbers>.txt`), `.github/workflows/` (publishing), `integrations/seo-ai.mjs` (the checks), `astro.config.mjs`, `package.json`.
 - Don't add packages or upgrade Astro. Don't add analytics, embeds or anything that loads from another site.
 - Don't delete posts or photos unless they ask.
 
 ## If the build fails
 
-Read the error. It's usually a typo in the front matter (the part between `---` lines), a date not in `YYYY-MM-DD` form, or a photo name that doesn't match the file. Fix it and build again. If you can't, tell them plainly and suggest they message Manas.
+If it says "The site isn't ready to publish", it lists each problem with the page it's on: fix those. Otherwise read the error. It's usually a typo in the front matter (the part between `---` lines), a date not in `YYYY-MM-DD` form, or a photo name that doesn't match the file. Fix it and build again. If you can't, tell them plainly and suggest they message Manas.
 
 ## Technical notes
 

@@ -29,7 +29,8 @@ html {
 
 body {
   margin: 0;
-  background: var(--lime);
+  /* Hairline cracks in the whitewash, a few mended with gold (scripts/make-kintsugi.mjs). */
+  background: var(--lime) url('/kintsugi.svg') top left / 1400px repeat;
   color: var(--ink);
   font-family: var(--serif);
   font-optical-sizing: auto;
@@ -158,6 +159,14 @@ figcaption {
 .say:hover { background: var(--ink); color: var(--lime); }
 
 :focus-visible { outline: 2px solid var(--glass); outline-offset: 3px; }
+
+@media (max-width: 40rem) {
+  body { background-size: 1000px; }
+}
+
+@media print {
+  body { background: #fff; }
+}
 
 @media (prefers-reduced-motion: no-preference) {
   a, .say { transition: color 0.15s, background-color 0.15s; }

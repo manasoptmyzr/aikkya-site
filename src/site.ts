@@ -7,7 +7,7 @@ export const site = {
   scripts: { hindi: 'ऐक्य', bangla: 'ঐক্য' },
   hosts: ['Shivani', 'Avijeet'],
   description:
-    'A farm stay on a quiet hillside in Seetla, near Mukteshwar in Kumaon, Uttarakhand. Restored stone houses, an A-frame, home-cooked food, sunsets, cows and dogs. Run by Shivani and Avijeet, who host a few guests at a time.',
+    'A farm stay on a quiet hillside in Seetla, near Mukteshwar in Kumaon. Restored stone houses, an A-frame, home cooking and sunsets, with Shivani and Avijeet.',
 
   phone: '+91 96500 30634',
   whatsapp: '919650030634',
