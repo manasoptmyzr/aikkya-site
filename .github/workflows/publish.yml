@@ -43,9 +43,15 @@ jobs:
     continue-on-error: true
     env:
       HOST: www.aikkya.in
+      KEY: b56aa06014ef120a25d9bcb3623bfcf5
     steps:
       - run: |
+          # Only once the site is really being served at $HOST (before go-live it isn't).
+          if [ "$(curl -fsSL https://$HOST/$KEY.txt 2>/dev/null)" != "$KEY" ]; then
+            echo "Site isn't live at $HOST yet; nothing to notify."
+            exit 0
+          fi
           urls=$(curl -fsSL https://$HOST/sitemap-0.xml | grep -o '<loc>[^<]*' | sed 's/<loc>//' | jq -R . | jq -sc .)
           curl -fsS -X POST https://api.indexnow.org/indexnow \
             -H 'Content-Type: application/json; charset=utf-8' \
-            -d "{\"host\":\"$HOST\",\"key\":\"b56aa06014ef120a25d9bcb3623bfcf5\",\"keyLocation\":\"https://$HOST/b56aa06014ef120a25d9bcb3623bfcf5.txt\",\"urlList\":$urls}"
+            -d "{\"host\":\"$HOST\",\"key\":\"$KEY\",\"keyLocation\":\"https://$HOST/$KEY.txt\",\"urlList\":$urls}"
