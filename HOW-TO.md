@@ -25,6 +25,6 @@ Open the Codex app, choose the same **aikkya-site** folder, and ask the same way
 - Photos can be any size and straight off the phone. It shrinks them.
 - If you paste your own words, it keeps them. Ask if you want them polished.
 - It won't add a "Book now" button, pop-ups or trackers. That's on purpose, and it knows why.
-- If it asks permission to run something starting with `npm` or `git`, that's fine to allow.
+- The first time, your Mac may ask whether Claude can open your Downloads folder. Say **Allow**. If Claude ever asks to run something, that's fine to allow too.
 - There's a list of small things still to check in **TO-CONFIRM.md**. Say "go through TO-CONFIRM with me" when you have twenty minutes.
 - Anything about passwords, GitHub, the domain or email: ask Manas.

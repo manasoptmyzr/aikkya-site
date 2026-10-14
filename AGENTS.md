@@ -8,7 +8,7 @@ Shivani and Avijeet run Aikkya, a farm stay on a hillside in Seetla, near Muktes
 
 - Do the work yourself. Don't ask them technical questions or show them code unless they ask.
 - After a change, show them the page in the preview and say in one or two plain sentences what changed.
-- Ask "Shall I put this live?" before publishing, unless they've already said to.
+- Ask "Shall I put this live?" before publishing. If they already said to put it live, publish once the build passes, then send them the link.
 - If you're unsure what they mean, ask one short question in plain words.
 - If something is beyond you (passwords, GitHub account, domain, DNS), tell them to ask Manas.
 
@@ -93,7 +93,9 @@ Make `src/pages/<name>.astro` using the `Base` layout with a `title` and a `desc
    - Every photo needs a description of what's in it (for people who can't see it, and for search).
 4. Preview it, show them, publish when they say so.
 
-If they paste an Instagram caption, use it as the text and drop the hashtags. The title can be a few words from the caption.
+If they paste an Instagram caption, use it as the text and drop the hashtags. If the caption opens with a few words that work as a title ("Sounds of monsoon."), use them as the title and start the text after them; otherwise pick a few words from it and keep the text whole.
+
+Photos usually arrive in `~/Downloads` (AirDrop, WhatsApp). Copy them into the post folder with plain `cp` commands, one per line, and never move or delete their originals. If a photo is already on the site in another post, mention it to them.
 
 ### Bring in many Instagram posts at once
 
@@ -131,10 +133,10 @@ Run `npm run dev` and open http://localhost:4321. In the Claude desktop app, the
 ## Publish
 
 1. `npm run build` must finish without errors.
-2. Then:
+2. `git status` should show only what you changed. Add those paths (or everything, if that's all there is), commit with a one-line `-m` message, and push:
 
    ```sh
-   git add -A
+   git add src/content/journal/2026-12-18-first-snow
    git commit -m "Add journal post: First snow"
    git push
    ```

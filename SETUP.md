@@ -60,8 +60,9 @@ No nameserver move is needed.
    cd ~/aikkya-site && npm install
    ```
 
-6. **Try it with them:** open Claude → Code → choose `~/aikkya-site`. Ask "show me the website" (the preview should open), then make a small change together and say "put it live". Check aikkya.com two minutes later.
-7. **ChatGPT (optional):** install the Codex app, sign in, open the same folder. It reads `AGENTS.md`, the same instructions Claude reads.
+6. **Permissions:** the project's `.claude/settings.json` lets Claude edit files in the folder, read `~/Downloads` and run the publishing commands without asking. The first time Claude reads Downloads, macOS asks for access; click Allow with them so they don't meet it alone.
+7. **Try it with them:** open Claude → Code → choose `~/aikkya-site`. Ask "show me the website" (the preview should open), then make a small change together and say "put it live". Check aikkya.com two minutes later.
+8. **ChatGPT (optional):** install the Codex app, sign in, open the same folder. It reads `AGENTS.md`, the same instructions Claude reads.
 
 ## 4. After it's live
 
