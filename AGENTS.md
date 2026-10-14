@@ -143,6 +143,8 @@ Run `npm run dev` and open http://localhost:4321. In the Claude desktop app, the
 
 3. The site updates at https://www.aikkya.in in about two minutes. `gh run list --limit 1` shows whether it finished.
 
+Before launch, www.aikkya.in still shows a GoDaddy parking page. If it does (fetch it to check), don't say the change is live: say it's saved and will appear on www.aikkya.in once Manas switches the domain on.
+
 If `git push` is rejected because something changed elsewhere, run `git pull --rebase` and push again.
 
 ## Undo
