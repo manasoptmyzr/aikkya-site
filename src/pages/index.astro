@@ -6,7 +6,7 @@ import Seam from '../components/Seam.astro';
 import { site, whatsappLink } from '../site';
 import { lodging } from '../schema';
 import { formatDate, excerpt, journalPosts, postUrl, inOrder } from '../util';
-import dusk from '../assets/photos/cottage-dusk.jpg';
+import sketch from '../assets/photos/cottage-sketch.jpg';
 import sunset from '../assets/photos/sunset-roofs.jpg';
 import bottle from '../assets/photos/kintsugi-bath-mirror.jpg';
 
@@ -17,7 +17,12 @@ const press = await inOrder('press');
 ---
 <Base schema={lodging(rooms.map((r) => r.data))}>
   <figure class="hero">
-    <Photo src={dusk} alt="One of the stone houses at Aikkya just after sunset, lit from inside, with the hills behind" sizes="100vw" priority />
+    <Photo
+      src={sketch}
+      alt="A pencil and watercolour drawing of one of the stone houses at Aikkya: slate roof, a porch with cane chairs, and a courtyard of broken stone"
+      sizes="(min-width: 1400px) 1400px, 100vw"
+      priority
+    />
   </figure>
 
   <section class="text intro">
@@ -85,8 +90,19 @@ const press = await inOrder('press');
 </Base>
 
 <style>
-  .hero :global(img) { width: 100%; height: min(86vh, 64vw); min-height: 22rem; object-fit: cover; object-position: center 58%; }
-  .intro { margin-top: clamp(2.5rem, 6vw, 4.5rem); }
+  /* The drawing is on white; multiply lets its faded edges melt into the page and its cracks. */
+  .hero { padding-inline: var(--gutter); }
+  @media (max-width: 40rem) { .hero { padding-inline: 0; } }
+  .hero :global(img) {
+    display: block;
+    margin-inline: auto;
+    width: auto;
+    max-width: min(100%, 1400px);
+    max-height: 72vh;
+    mix-blend-mode: multiply;
+  }
+  /* The drawing already fades into empty paper at the bottom. */
+  .intro { margin-top: clamp(0.5rem, 2vw, 1.5rem); }
   .intro h1 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.5em; }
   .scripts { font-size: 0.42em; color: var(--ink-soft); }
   .lede { font-size: 1.2em; line-height: 1.5; }

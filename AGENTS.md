@@ -37,6 +37,7 @@ Aikkya is a home, not a hotel. They screen their guests, and they aren't trying 
 | Text on the home, Us, Stay and Say hello pages | `src/pages/index.astro`, `us.astro`, `stay.astro`, `say-hello.astro` |
 | Photos used on pages | `src/assets/photos/` |
 | Colours and type | `src/styles/site.css` |
+| The drawing at the top of the home page | `src/assets/photos/cottage-sketch.jpg`, made from `cottage-dusk.jpg` with `scripts/pencil-sketch.swift` (options at the top of that file) |
 | The faint cracked-plaster background | `public/kintsugi.svg`, drawn by `scripts/make-kintsugi.mjs` (change the numbers at the top and run `node scripts/make-kintsugi.mjs`) |
 | Things still to check with Shivani and Avijeet | `TO-CONFIRM.md` |
 
@@ -114,6 +115,10 @@ Add an entry to `src/content/kind-words.yaml` with the next number: first name, 
 ### Add a newspaper or magazine piece
 
 Add it to `src/content/press.yaml`, with the link if there is one.
+
+### Turn a photo into a drawing like the home page
+
+`swift -O scripts/pencil-sketch.swift photo.jpg drawing.jpg 2800 --wash --light` (add `--crop=left,top,right,bottom` fractions to trim first). Daytime photos work best; dark or evening ones can look gloomy even with `--light`. The drawing is on white, so put it on a page with `mix-blend-mode: multiply` (see `.hero` in `src/pages/index.astro`) and its edges melt into the background.
 
 ### Change a room
 
