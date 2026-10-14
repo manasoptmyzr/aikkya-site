@@ -151,7 +151,7 @@ Every publish is kept. To undo the last one: `git revert HEAD --no-edit`, then `
 
 ## Don't change without Manas
 
-- `public/CNAME` (the domain), `public/robots.txt`, the IndexNow key file (`public/<32 letters and numbers>.txt`), `.github/workflows/` (publishing), `integrations/seo-ai.mjs` (the checks), `astro.config.mjs`, `package.json`.
+- `public/robots.txt`, the IndexNow key file (`public/<32 letters and numbers>.txt`), `.github/workflows/` (publishing), `integrations/seo-ai.mjs` (the checks), `astro.config.mjs`, `package.json`.
 - Don't add packages or upgrade Astro. Don't add analytics, embeds or anything that loads from another site.
 - Don't delete posts or photos unless they ask.
 
@@ -163,5 +163,5 @@ If it says "The site isn't ready to publish", it lists each problem with the pag
 
 - Astro 7, static output, content collections in `src/content.config.ts`, images through `astro:assets` (`src/components/Photo.astro`).
 - Fonts are self-hosted (Newsreader, Tiro Devanagari Hindi, Tiro Bangla). Nothing loads from Google.
-- Hosting: GitHub Pages, deployed by `.github/workflows/publish.yml` on every push to `main`.
+- Hosting: GitHub Pages, deployed by `.github/workflows/publish.yml` on every push to `main`. The domain is set in the repository's Pages settings, not in a file.
 - Astro docs: https://docs.astro.build. For a long-running dev server you can use `npx astro dev --background`, then `npx astro dev stop`.
