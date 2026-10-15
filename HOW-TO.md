@@ -26,6 +26,7 @@ Everything about www.aikkya.in lives in a folder on your Mac called **aikkya-sit
 
 ## Good to know
 
+- If the journal hasn't had a new post for more than 2 days, it will ask you for one when you publish: send your latest Instagram post, or a photo and a line about the farm. It never makes one up. Say "skip it this time" if you're in a hurry.
 - Photos can be any size and straight off the phone. It shrinks them.
 - If you paste your own words, it keeps them. Ask if you want them polished.
 - It won't add a "Book now" button, pop-ups or trackers. That's on purpose, and it knows why.

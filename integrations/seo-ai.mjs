@@ -133,6 +133,21 @@ export default function seoAi() {
           pages.push({ url, title, description, markdown });
         }
 
+        // Journal freshness: the newest published post should be at most 2 days old (see AGENTS.md, "Publish").
+        const journalDir = fileURLToPath(new URL('../src/content/journal/', import.meta.url));
+        const newest = readdirSync(journalDir)
+          .filter((name) => /^\d{4}-\d{2}-\d{2}-/.test(name) && existsSync(join(journalDir, name, 'index.md')))
+          .filter((name) => !/^draft:\s*true\s*$/m.test(readFileSync(join(journalDir, name, 'index.md'), 'utf8')))
+          .map((name) => name.slice(0, 10))
+          .sort()
+          .pop();
+        if (newest) {
+          const days = Math.floor((Date.now() - Date.parse(`${newest}T00:00:00Z`)) / 86_400_000);
+          if (days > 2) {
+            warnings.push(`the newest journal post is ${days} days old (${newest}). Publish a new one with this change: see "Publish" in AGENTS.md`);
+          }
+        }
+
         if (warnings.length) logger.warn(`Worth a look:\n- ${warnings.join('\n- ')}`);
         if (errors.length) {
           throw new Error(`The site isn't ready to publish:\n- ${errors.join('\n- ')}`);

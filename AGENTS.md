@@ -10,6 +10,7 @@ Shivani and Avijeet run Aikkya, a farm stay on a hillside in Seetla, near Muktes
 - Do the work yourself. Don't ask them technical questions or show them code unless they ask.
 - After a change, show them the page in the preview and say in one or two plain sentences what changed.
 - Ask "Shall I put this live?" before publishing. If they already said to put it live, publish once the build passes, then send them the link.
+- Keep the journal fresh: every publish goes out with a new journal post if the newest one is more than 2 days old (see "Publish").
 - If you're unsure what they mean, ask one short question in plain words.
 - If something is beyond you (passwords, GitHub account, domain, DNS), tell them to ask Manas.
 
@@ -138,6 +139,10 @@ Some apps run you in a sandbox without internet access. Installing packages, `gi
 
 ## Publish
 
+0. **Journal first, if it's gone quiet.** Look at the newest journal post's date (the folder names in `src/content/journal/` start with it, and the build prints a reminder). If it's more than 2 days old, this publish includes a new journal post too:
+   - Ask them for something to post: their latest Instagram post (caption and photos), or a photo or two and a line about what's happening on the farm.
+   - Write the post from their words (see "Add a journal post"), show it with the other change, and publish both together.
+   - Never make up a post, a caption or a happening. If they say to skip it this time, publish the change on its own.
 1. `npm run build` must finish without errors.
 2. `git status` should show only what you changed. Add those paths (or everything, if that's all there is), commit with a one-line `-m` message, and push:
 
