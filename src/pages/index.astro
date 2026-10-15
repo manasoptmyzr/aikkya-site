@@ -7,13 +7,13 @@ import { whatsappLink } from '../site';
 import { lodging } from '../schema';
 import { formatDate, excerpt, journalPosts, postUrl, inOrder } from '../util';
 import BannerSlideshow from '../components/BannerSlideshow.astro';
+import Press from '../components/Press.astro';
 import sunset from '../assets/photos/sunset-roofs.jpg';
 import bottle from '../assets/photos/kintsugi-bath-mirror.jpg';
 
 const rooms = (await getCollection('rooms')).sort((a, b) => a.data.order - b.data.order);
 const posts = (await journalPosts()).slice(0, 3);
 const words = (await inOrder('kindWords')).filter((w) => w.data.featured);
-const press = await inOrder('press');
 ---
 <Base schema={lodging(rooms.map((r) => r.data))}>
   <BannerSlideshow />
@@ -22,6 +22,11 @@ const press = await inOrder('press');
     <h1 class="visually-hidden">Aikkya</h1>
     <p class="lede">A farm on a quiet hillside in Seetla, Kumaon. Seven and a half acres of fruit trees and forest, a few old stone houses we restored, an A-frame, and a lot of sky. Cows, dogs, and sometimes a cat named Billi.</p>
     <p>We're Shivani and Avijeet. We live here, and a few guests at a time stay with us.</p>
+  </section>
+
+  <section class="text news">
+    <h2>In the news</h2>
+    <Press />
   </section>
 
   <Seam />
@@ -69,10 +74,9 @@ const press = await inOrder('press');
     {words.map((w) => (
       <blockquote>
         <p>{w.data.words}</p>
-        <footer class="quiet small">{w.data.name}, {w.data.when}</footer>
+        <footer class="quiet small">{w.data.name}, on {w.data.where}</footer>
       </blockquote>
     ))}
-    <p class="quiet small">Written about in {press.map((p) => p.data.outlet).join(', ').replace(/, ([^,]*)$/, ' and $1')}.</p>
   </section>
 
   <section class="text hello">

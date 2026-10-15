@@ -47,9 +47,10 @@ const press = defineCollection({
   loader: file('src/content/press.yaml'),
   schema: z.object({
     outlet: z.string(),
+    headline: z.string(),
+    byline: z.string().optional(),
     when: z.string(),
-    about: z.string(),
-    link: z.string().url().optional(),
+    link: z.string().optional(),
   }),
 });
 

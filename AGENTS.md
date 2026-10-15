@@ -113,11 +113,11 @@ Edit `src/site.ts`. Prices appear on the Stay page, the Getting here questions, 
 
 ### Add a guest review
 
-Add an entry to `src/content/kind-words.yaml` with the next number: first name, month and year, where it was written (Airbnb, Google, a letter…), and the exact words. `featured: true` also shows it on the home page; keep that to three.
+Add an entry to `src/content/kind-words.yaml` with the next number: first name, month and year (kept in the file but not shown: dates make reviews look old), where it was written (Airbnb, Google, a letter…), and the exact words. `featured: true` also shows it on the home page; keep that to three.
 
 ### Add a newspaper or magazine piece
 
-Add it to `src/content/press.yaml`, with the link if there is one.
+Add it to `src/content/press.yaml`: the outlet, the article's headline, the writer, the month (not shown), and the link. It appears under "In the news" on the home page and the Kind words page.
 
 ### Turn a photo into a drawing like the home page
 

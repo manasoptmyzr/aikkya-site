@@ -1,19 +1,23 @@
-# Newspapers and magazines that wrote about Aikkya. Add the link when you have it.
-# Shown in this order (by the number at the start).
+# Newspapers and magazines that wrote about Aikkya, shown in this order
+# (by the number at the start). `when` is kept for the record but not shown on the site.
+# `link` can be the article's address, or a page on this site.
 
-01-economic-times-2026:
-  outlet: The Economic Times
-  when: January 2026
-  about: A Sunday feature on Aikkya.
-
-02-ndtv-2026:
+01-ndtv-2026:
   outlet: NDTV
+  headline: They Left The City For The Hills. Nature Tested If They Meant It
+  byline: Shatabdi Chowdhury
   when: July 2026
-  about: >-
-    "They Left The City For The Hills. Nature Tested If They Meant It", by
-    Shatabdi Chowdhury, on living through the monsoon in Kumaon.
+  link: https://www.ndtv.com/india-news/uttarakhand-rain-monsoon-himachal-flash-floods-landslide-the-city-dropouts-who-chose-hill-life-through-rain-and-storm-11843867
 
-03-travel-leisure-2026:
+02-travel-leisure-2026:
   outlet: Travel + Leisure India & South Asia
+  headline: How The Hills Of Kumaon Are Becoming A Haven For Creatives
+  byline: Ria Gupta
   when: August 2026
-  about: Kumaon's growing creative community, by Ria Gupta.
+  link: https://www.travelandleisureasia.com/in/destinations/india/how-the-hills-of-kumaon-is-becoming-a-haven-for-creatives/
+
+03-economic-times-2026:
+  outlet: The Economic Times
+  headline: A Sunday feature, in print
+  when: January 2026
+  link: /journal/2026-01-10-in-the-papers/

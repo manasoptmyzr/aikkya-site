@@ -31,7 +31,7 @@ ${rooms.map((r) => `- [${r.data.name}](${url('/stay/#' + r.id)}): ${r.data.line}
 ${questions.map((q) => `- ${q.data.q} ${q.data.a}`).join('\n')}
 
 ## In the news
-${press.map((n) => `- ${n.data.outlet}, ${n.data.when}: ${n.data.about}`).join('\n')}
+${press.map((n) => `- ${n.data.outlet}, ${n.data.when}: "${n.data.headline}"${n.data.byline ? ` by ${n.data.byline}` : ''}${n.data.link ? ` (${url(n.data.link)})` : ''}`).join('\n')}
 
 ## Pages
 Every page is also available as plain markdown: add index.md to its address (for example ${url('/stay/index.md')}). All pages in one file: ${url('/llms-full.txt')}

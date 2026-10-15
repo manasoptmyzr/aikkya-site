@@ -1,0 +1,19 @@
+---
+// "In the news": each outlet with the article's headline, linked to the article.
+import { inOrder } from '../util';
+const press = await inOrder('press');
+---
+<ul class="press">
+  {press.map((p) => (
+    <li>
+      <span class="outlet">{p.data.outlet}</span>
+      {p.data.link ? <a href={p.data.link}>{p.data.headline}</a> : <span>{p.data.headline}</span>}
+      {p.data.byline && <span class="quiet"> by {p.data.byline}</span>}
+    </li>
+  ))}
+</ul>
+<style>
+  .press { list-style: none; padding: 0; margin: 0; }
+  .press li { margin-bottom: 1.1rem; }
+  .outlet { display: block; font-size: 0.8em; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
+</style>
