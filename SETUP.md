@@ -79,7 +79,7 @@ The site's address is **https://www.aikkya.in**. `aikkya.in`, `aikkya.com` and `
 - **Bing Webmaster Tools:** import the site from Search Console and submit the same sitemap. Bing's index is what ChatGPT search and Copilot use.
 - **Check** `https://www.aikkya.in/llms.txt` shows the summary and the page list, and `https://www.aikkya.in/stay/index.md` shows a page as plain text.
 - **IndexNow:** nothing to set up. After each publish the workflow tells Bing and the other IndexNow engines about the pages, using the key file in `public/`. That step is allowed to fail (for example before DNS is connected) without affecting the site.
-- **robots.txt** (built by `src/pages/robots.txt.ts`) allows every crawler and says, through Content-Signal, that the content may be used for search, for AI answers and for training. That suits the goal of being visible to AI tools; if they'd rather not have it used for training, change `ai-train=yes` to `ai-train=no`.
+- **robots.txt** (built by `src/pages/robots.txt.ts`) lets every crawler in, search engines and AI assistants alike.
 
 ## What's where
 

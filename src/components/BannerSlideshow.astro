@@ -24,7 +24,14 @@ const slides = [
     <div class="track">
       {slides.map((slide, i) => (
         <div class="slide" role="group" aria-roledescription="slide" aria-label={`${i + 1} of ${slides.length}`} aria-hidden={i !== 0 ? 'true' : 'false'}>
-          <Picture src={slide.src} alt={slide.alt} width={2000} widths={[480, 960, 1400, 2000]} sizes="(min-width: 1480px) 1400px, 100vw" formats={['webp']} loading="eager" fetchpriority={i === 0 ? 'high' : 'low'} />
+          {i === 0 ? (
+            <Picture src={slide.src} alt={slide.alt} width={2000} widths={[480, 960, 1400, 2000]} sizes="(min-width: 1480px) 1400px, 100vw" formats={['webp']} loading="eager" fetchpriority="high" />
+          ) : (
+            /* Held back until the page has loaded, so the first photo gets the connection to itself. */
+            <template data-later>
+              <Picture src={slide.src} alt={slide.alt} width={2000} widths={[480, 960, 1400, 2000]} sizes="(min-width: 1480px) 1400px, 100vw" formats={['webp']} loading="eager" fetchpriority="low" />
+            </template>
+          )}
         </div>
       ))}
     </div>
@@ -87,6 +94,7 @@ const slides = [
         }
       };
       dots.forEach((dot, i) => dot.addEventListener('click', () => {
+        this.querySelectorAll<HTMLTemplateElement>('template[data-later]').forEach((t) => t.replaceWith(t.content.cloneNode(true)));
         playing = i === index ? !playing : false;
         index = i;
         update();
@@ -96,9 +104,15 @@ const slides = [
       reducedMotion.addEventListener('change', () => {
         if (reducedMotion.matches) { playing = false; update(); startTimer(); }
       }, { signal });
+      // Bring in the other photos once the page has finished loading, then start the slideshow.
+      const loadRest = () => {
+        this.querySelectorAll<HTMLTemplateElement>('template[data-later]').forEach((t) => t.replaceWith(t.content.cloneNode(true)));
+        startTimer();
+      };
       this.querySelector<HTMLElement>('.controls')!.hidden = false;
       update();
-      startTimer();
+      if (document.readyState === 'complete') loadRest();
+      else window.addEventListener('load', loadRest, { once: true, signal });
     }
     disconnectedCallback() {
       clearInterval(this.timer);

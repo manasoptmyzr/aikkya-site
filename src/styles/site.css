@@ -1,5 +1,21 @@
 /* Colours taken from the place: whitewash, stone, pine, the blue glass bottle,
    the gold in the floor's cracks, the rug, and the sky just after sunset. */
+/* Hindi and Bangla type for the name (ऐक्य, ঐক্য). These files hold only those letters
+   (and ₹), so they weigh 4 KB instead of 90 KB each. Other Hindi or Bangla text falls back
+   to the system's own font; for more, re-subset from @fontsource (see AGENTS.md). */
+@font-face {
+  font-family: 'Tiro Devanagari Hindi';
+  src: url('/fonts/tiro-devanagari-aikkya.woff2') format('woff2');
+  font-display: swap;
+  unicode-range: U+0900-097F, U+200C-200D, U+20B9;
+}
+@font-face {
+  font-family: 'Tiro Bangla';
+  src: url('/fonts/tiro-bangla-aikkya.woff2') format('woff2');
+  font-display: swap;
+  unicode-range: U+0980-09FF, U+200C-200D;
+}
+
 :root {
   --lime: #f5f1e8;
   --lime-deep: #ebe4d6;

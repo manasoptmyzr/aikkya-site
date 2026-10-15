@@ -9,6 +9,8 @@ export default defineConfig({
   site: 'https://www.aikkya.in',
   trailingSlash: 'ignore',
   compressHTML: true,
+  // Styles go inside each page, so there's no extra file to wait for before anything shows.
+  build: { inlineStylesheets: 'always' },
   integrations: [
     sitemap({
       // Journal posts tell search engines when they were written.
