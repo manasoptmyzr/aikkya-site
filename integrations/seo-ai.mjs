@@ -16,6 +16,19 @@ let SITE = '';
 const PAGE_ORDER = ['/', '/stay/', '/us/', '/journal/', '/kind-words/', '/getting-here/', '/say-hello/'];
 const BANNED = [/\bbook now\b/i, /\bbook your stay\b/i, /\breserve now\b/i];
 
+// Size limits. Photos in src/ are resized by the build, but big originals slow every
+// build and bloat the repository; files in public/ are sent to visitors exactly as they are.
+const IMAGE = /\.(jpe?g|png|webp|avif|gif|svg|heic)$/i;
+const SRC_IMAGE_LIMIT = 3 * 1024 * 1024;
+const PUBLIC_IMAGE_LIMIT = 300 * 1024;
+const ROBOTS_DIRECTIVES = ['user-agent', 'allow', 'disallow', 'sitemap'];
+
+const allFiles = (dir) =>
+  readdirSync(dir).flatMap((name) => {
+    const path = join(dir, name);
+    return statSync(path).isDirectory() ? allFiles(path) : [path];
+  });
+
 const walk = (dir) =>
   readdirSync(dir).flatMap((name) => {
     const path = join(dir, name);
@@ -113,6 +126,15 @@ export default function seoAi() {
             if (/^(https?:)?\/\//.test(s.getAttribute('src'))) problem(`loads a script from another site: ${s.getAttribute('src')}`);
           }
           if (doc.querySelector('iframe')) problem('has an embed (iframe); the site keeps everything on its own pages');
+          for (const l of doc.querySelectorAll('link[rel="stylesheet"]')) {
+            if (/^(https?:)?\/\//.test(l.getAttribute('href') ?? '')) problem(`loads styles or fonts from another site: ${l.getAttribute('href')}`);
+          }
+
+          // Only the main picture at the top may load straight away; the rest wait (logo excepted).
+          const eager = doc
+            .querySelectorAll('img')
+            .filter((img) => (img.getAttribute('loading') === 'eager' || img.getAttribute('fetchpriority') === 'high') && !img.closest('template') && !img.closest('header'));
+          if (eager.length > 1) problem(`${eager.length} photos load straight away; only the main one at the top should (the rest load lazily, or after the page)`);
 
           for (const ld of doc.querySelectorAll('script[type="application/ld+json"]')) {
             try { JSON.parse(ld.text); } catch { problem('has broken structured data (JSON-LD)'); }
@@ -131,6 +153,28 @@ export default function seoAi() {
             .join('\n\n---\n\n');
           writeFileSync(join(root, url, 'index.md'), `${markdown}\n`);
           pages.push({ url, title, description, markdown });
+        }
+
+        // Image sizes (see the limits at the top).
+        const projectRoot = fileURLToPath(new URL('../', import.meta.url));
+        for (const [folder, limit] of [['src', SRC_IMAGE_LIMIT], ['public', PUBLIC_IMAGE_LIMIT]]) {
+          for (const file of allFiles(join(projectRoot, folder)).filter((f) => IMAGE.test(f))) {
+            const size = statSync(file).size;
+            if (size > limit) {
+              errors.push(`${relative(projectRoot, file)} is ${Math.round(size / 1024)} KB; the limit is ${Math.round(limit / 1024)} KB (shrink it: sips -Z 2400 for photos, or re-save as WebP)`);
+            }
+          }
+        }
+
+        // robots.txt: only the standard lines, so every crawler and checking tool reads it cleanly.
+        const robotsPath = join(root, 'robots.txt');
+        if (existsSync(robotsPath)) {
+          for (const line of readFileSync(robotsPath, 'utf8').split('\n')) {
+            const key = line.split(':')[0].trim().toLowerCase();
+            if (line.trim() && !line.trim().startsWith('#') && !ROBOTS_DIRECTIVES.includes(key)) {
+              errors.push(`robots.txt has a line search tools don't recognise: "${line.trim()}"`);
+            }
+          }
         }
 
         // Journal freshness: the newest published post should be at most 2 days old (see AGENTS.md, "Publish").

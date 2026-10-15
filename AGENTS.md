@@ -62,6 +62,19 @@ When writing, help search and AI tools by being plain and specific:
 - Name places where they belong naturally (Seetla, Mukteshwar, Kumaon, Nainital). Never stuff keywords.
 - Facts go in one place (`src/site.ts`, the YAML files), so the site, `/llms.txt` and the structured data never disagree.
 
+### Keep it fast and findable (rules)
+
+These keep the site quick on a phone in the hills and easy for search engines and AI tools to read. The build enforces the ones marked ✓ and refuses to publish if they're broken.
+
+- ✓ Photos in `src/` are at most 3 MB each. Shrink before adding: `sips -Z 2400 photo.jpg` (the site never shows photos wider than 2400 pixels).
+- ✓ Images in `public/` (sent to visitors exactly as they are, like the paper background) are at most 300 KB. Re-save textures and backgrounds as WebP at about quality 70.
+- ✓ One photo per page loads straight away: the main one at the top. Everything else loads lazily (the `Photo` component does this unless you pass `priority`). A slideshow loads its first photo with the page and the rest afterwards, inside `<template data-later>` (see `src/components/BannerSlideshow.astro`).
+- ✓ Nothing loads from other sites: no outside scripts, styles, fonts or embeds.
+- ✓ robots.txt has only standard lines (User-agent, Allow, Disallow, Sitemap).
+- ✓ Every page has a title, a description, one main heading, and a description for every photo; every link goes somewhere.
+- Don't add new font families. If a page needs more Hindi or Bangla letters, re-cut the small font files in `public/fonts/` from the `@fontsource` packages with `pyftsubset` (keep `--layout-features='*'`).
+- After any change to the look or layout (backgrounds, banners, fonts, new sections), check the speed: build, run `npm run preview` (it serves on port 4321, or pass `--port`), then `npx -y lighthouse@12.8.2 http://localhost:4321/ --only-categories=seo,performance,accessibility,best-practices --chrome-flags="--headless=new"` on the home page and the page you changed. SEO, accessibility and best practices should stay at 100, and phone performance at 80 or more. If it drops, find the heavy file and fix it before publishing.
+
 ### Adding a new page
 
 Make `src/pages/<name>.astro` using the `Base` layout with a `title` and a `description` (50 to 160 characters), exactly one `<h1>`, and add it to the menu in `src/components/Header.astro`. The sitemap, markdown copy, llms.txt entry and checks happen by themselves.
