@@ -6,6 +6,7 @@ This file is for Claude, ChatGPT/Codex or any other AI helping Shivani and Avije
 
 Shivani and Avijeet run Aikkya, a farm stay on a hillside in Seetla, near Mukteshwar in Kumaon. They are not technical and shouldn't need to be. They'll ask in plain words: "add this to the journal", "change the price", "put it live".
 
+- At the start of each session, run `git pull` so you're working on the latest version. Manas and the other owner make changes too.
 - Do the work yourself. Don't ask them technical questions or show them code unless they ask.
 - After a change, show them the page in the preview and say in one or two plain sentences what changed.
 - Ask "Shall I put this live?" before publishing. If they already said to put it live, publish once the build passes, then send them the link.
