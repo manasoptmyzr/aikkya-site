@@ -189,6 +189,7 @@ If it says "The site isn't ready to publish", it lists each problem with the pag
 
 - Astro 7, static output, content collections in `src/content.config.ts`, images through `astro:assets` (`src/components/Photo.astro`).
 - Fonts are self-hosted (Newsreader, Tiro Devanagari Hindi, Tiro Bangla). Nothing loads from Google. The Hindi and Bangla files in `public/fonts/` hold only the letters of the name, to keep pages light; if a page needs more Hindi or Bangla text, it shows in the system font.
+- Links to other sites open in a new tab automatically (the build adds `target="_blank"`), including links in journal posts. Don't add it by hand.
 - Keep pages light: the home page's slideshow loads its first photo with the page and the rest afterwards; keep it that way if you change it.
 - Hosting: GitHub Pages, deployed by `.github/workflows/publish.yml` on every push to `main`. The domain is set in the repository's Pages settings, not in a file.
 - Astro docs: https://docs.astro.build. For a long-running dev server you can use `npx astro dev --background`, then `npx astro dev stop`.

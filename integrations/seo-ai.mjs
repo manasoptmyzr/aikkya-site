@@ -65,6 +65,16 @@ turndown.addRule('absoluteLinks', {
 turndown.addRule('definitionTerm', { filter: 'dt', replacement: (content) => `\n\n**${content.trim()}**\n` });
 turndown.addRule('definitionText', { filter: 'dd', replacement: (content) => `${content.trim()}\n` });
 
+// Adds target="_blank" (and rel="noopener") to every link that leaves the site.
+const withNewTabLinks = (html) =>
+  html.replace(/<a\s[^>]*>/gi, (tag) => {
+    const href = tag.match(/\shref="([^"]*)"/i)?.[1] ?? '';
+    const external = /^(https?:)?\/\//i.test(href) && new URL(href, SITE).origin !== new URL(SITE).origin;
+    if (!external || /\starget=/i.test(tag)) return tag;
+    const rel = /\srel="/i.test(tag) ? '' : ' rel="noopener"';
+    return tag.replace(/>$/, ` target="_blank"${rel}>`);
+  });
+
 const pageUrl = (root, file) => '/' + relative(root, file).split('\\').join('/').replace(/index\.html$/, '');
 
 const linkExists = (root, href) => {
@@ -92,7 +102,11 @@ export default function seoAi() {
         for (const file of walk(root)) {
           const url = pageUrl(root, file);
           const notFoundPage = url === '/404.html';
-          const doc = parse(readFileSync(file, 'utf8'));
+          // Links to other sites open in a new tab, so visitors don't lose their place here.
+          const original = readFileSync(file, 'utf8');
+          const html = withNewTabLinks(original);
+          if (html !== original) writeFileSync(file, html);
+          const doc = parse(html);
           const problem = (msg) => errors.push(`${url}: ${msg}`);
           const note = (msg) => warnings.push(`${url}: ${msg}`);
 
