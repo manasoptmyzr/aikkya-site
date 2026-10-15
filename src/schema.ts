@@ -26,7 +26,9 @@ export const lodging = (rooms: { name: string; line: string; sleeps: string }[] 
   hasMap: site.mapUrl,
   checkinTime: site.checkIn,
   checkoutTime: site.checkOut,
-  priceRange: `${rupees(site.prices.wabiSabi)}–${rupees(site.prices.kintsugi)} per night for two, breakfast included`,
+  ...(site.showPrices && {
+    priceRange: `${rupees(site.prices.wabiSabi)}–${rupees(site.prices.kintsugi)} per night for two, breakfast included`,
+  }),
   currenciesAccepted: 'INR',
   petsAllowed: true,
   numberOfRooms: 4,

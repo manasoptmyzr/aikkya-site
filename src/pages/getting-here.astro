@@ -9,10 +9,10 @@ import { faq } from '../schema';
 const p = site.prices;
 const questions = [
   ...(await inOrder('questions')).map((q) => q.data),
-  {
+  ...(site.showPrices ? [{
     q: 'How much does it cost?',
     a: `${rupees(p.wabiSabi)} a night for Wabi or Sabi, ${rupees(p.kintsugi)} for Kintsugi or the A-frame. That's for two, with breakfast. A third person in the same room is ${rupees(p.extraGuest)} a night.`,
-  },
+  }] : []),
   {
     q: 'How do we book?',
     a: "Write to us on WhatsApp and tell us a little about yourselves. Aikkya is our home and we host a few people at a time, so we like to talk first.",

@@ -108,7 +108,7 @@ Ask them to download their Instagram data: Instagram app → Settings → Accoun
 
 ### Change prices, phone number or check-in times
 
-Edit `src/site.ts`. Prices appear on the Stay page, the Getting here questions, `/llms.txt` and the structured data automatically.
+Edit `src/site.ts`. Prices appear on the Stay page, the Getting here questions, `/llms.txt` and the structured data automatically, but only while `showPrices` is `true`. It's `false` for now: they've chosen not to show prices. Turn it back on only when they ask.
 
 ### Add a guest review
 

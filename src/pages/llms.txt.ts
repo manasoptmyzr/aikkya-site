@@ -20,7 +20,7 @@ export const GET: APIRoute = async ({ site: base }) => {
 - Address: ${site.fullName}, ${a.street}, ${a.locality}, ${a.district} district, ${a.region} ${a.postalCode}, India
 - Hosts: Shivani and Avijeet, who live on the farm
 - Contact: WhatsApp ${site.phone}. There is no online booking. Guests write first, and the hosts host a few people at a time.
-- Prices: ${rupees(p.wabiSabi)} a night for Wabi or Sabi, ${rupees(p.kintsugi)} for Kintsugi or A-Frame of Mind, for two people with breakfast. A third person in the same room is ${rupees(p.extraGuest)} a night.
+- ${site.showPrices ? `Prices: ${rupees(p.wabiSabi)} a night for Wabi or Sabi, ${rupees(p.kintsugi)} for Kintsugi or A-Frame of Mind, for two people with breakfast. A third person in the same room is ${rupees(p.extraGuest)} a night.` : 'Rates: shared by the hosts when you write to them on WhatsApp. Breakfast is included.'}
 - Check-in from 2 pm, check-out by 11 am
 - Instagram: ${site.instagram}
 

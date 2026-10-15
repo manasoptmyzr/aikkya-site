@@ -29,6 +29,8 @@ export const site = {
   checkOut: '11:00',
 
   // Prices per night, for two people, breakfast included.
+  // showPrices: false hides them everywhere (pages, llms.txt, search data).
+  showPrices: false,
   prices: {
     wabiSabi: 8500,
     kintsugi: 9500,

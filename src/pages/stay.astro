@@ -11,13 +11,16 @@ const rendered = await Promise.all(rooms.map(async (r) => ({ room: r, Content: (
 const p = site.prices;
 ---
 <Base
-  title="Rooms and prices"
-  description={`Where you'd stay at Aikkya: Kintsugi, A-Frame of Mind, and the Wabi and Sabi suites. ${rupees(p.wabiSabi)} to ${rupees(p.kintsugi)} a night for two, with breakfast.`}
+  title={site.showPrices ? 'Rooms and prices' : 'Rooms'}
+  description={`Where you'd stay at Aikkya: Kintsugi, A-Frame of Mind, and the Wabi and Sabi suites.${site.showPrices ? ` ${rupees(p.wabiSabi)} to ${rupees(p.kintsugi)} a night for two, with breakfast.` : ' Breakfast is included.'}`}
   schema={lodging(rooms.map((r) => r.data))}
 >
   <div class="text page-head">
     <h1>Stay</h1>
-    <p>Three places to stay, a short walk apart on the hillside. Wabi and Sabi are {rupees(p.wabiSabi)} a night, Kintsugi and the A-frame {rupees(p.kintsugi)}. That's for two, with breakfast. A third person in the same room is {rupees(p.extraGuest)} a night.</p>
+    <p>
+      Three places to stay, a short walk apart on the hillside.
+      {site.showPrices && ` Wabi and Sabi are ${rupees(p.wabiSabi)} a night, Kintsugi and the A-frame ${rupees(p.kintsugi)}. That's for two, with breakfast. A third person in the same room is ${rupees(p.extraGuest)} a night.`}
+    </p>
   </div>
 
   {rendered.map(({ room, Content }, i) => (
