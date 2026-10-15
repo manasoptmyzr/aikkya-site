@@ -1,4 +1,5 @@
 ---
+import Logo from './Logo.astro';
 const links = [
   { href: '/stay/', label: 'Stay' },
   { href: '/journal/', label: 'Life at Aikkya' },
@@ -11,7 +12,7 @@ const path = Astro.url.pathname.replace(/\/?$/, '/');
 const current = (href: string) => path === href || (href !== '/' && path.startsWith(href));
 ---
 <header class="top">
-  <a class="mark" href="/">Aikkya</a>
+  <a class="mark" href="/" aria-label="Aikkya home"><Logo /></a>
   <nav aria-label="Main">
     <ul>
       {links.map((l) => (
@@ -20,3 +21,7 @@ const current = (href: string) => path === href || (href !== '/' && path.startsW
     </ul>
   </nav>
 </header>
+
+<style>
+  .mark :global(.logo) { display: block; width: 6rem; }
+</style>

@@ -3,10 +3,10 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Photo from '../components/Photo.astro';
 import Seam from '../components/Seam.astro';
-import { site, whatsappLink } from '../site';
+import { whatsappLink } from '../site';
 import { lodging } from '../schema';
 import { formatDate, excerpt, journalPosts, postUrl, inOrder } from '../util';
-import sketch from '../assets/photos/cottage-sketch.jpg';
+import BannerSlideshow from '../components/BannerSlideshow.astro';
 import sunset from '../assets/photos/sunset-roofs.jpg';
 import bottle from '../assets/photos/kintsugi-bath-mirror.jpg';
 
@@ -16,17 +16,10 @@ const words = (await inOrder('kindWords')).filter((w) => w.data.featured);
 const press = await inOrder('press');
 ---
 <Base schema={lodging(rooms.map((r) => r.data))}>
-  <figure class="hero">
-    <Photo
-      src={sketch}
-      alt="A pencil and watercolour drawing of one of the stone houses at Aikkya: slate roof, a porch with cane chairs, and a courtyard of broken stone"
-      sizes="(min-width: 1400px) 1400px, 100vw"
-      priority
-    />
-  </figure>
+  <BannerSlideshow />
 
   <section class="text intro">
-    <h1>Aikkya <span class="indic scripts" lang="hi">{site.scripts.hindi}</span> <span class="indic scripts" lang="bn">{site.scripts.bangla}</span></h1>
+    <h1 class="visually-hidden">Aikkya</h1>
     <p class="lede">A farm on a quiet hillside in Seetla, Kumaon. Seven and a half acres of fruit trees and forest, a few old stone houses we restored, an A-frame, and a lot of sky. Cows, dogs, and sometimes a cat named Billi.</p>
     <p>We're Shivani and Avijeet. We live here, and a few guests at a time stay with us.</p>
   </section>
@@ -90,21 +83,7 @@ const press = await inOrder('press');
 </Base>
 
 <style>
-  /* The drawing is on white; multiply lets its faded edges melt into the page and its cracks. */
-  .hero { padding-inline: var(--gutter); }
-  @media (max-width: 40rem) { .hero { padding-inline: 0; } }
-  .hero :global(img) {
-    display: block;
-    margin-inline: auto;
-    width: auto;
-    max-width: min(100%, 1400px);
-    max-height: 72vh;
-    mix-blend-mode: multiply;
-  }
-  /* The drawing already fades into empty paper at the bottom. */
-  .intro { margin-top: clamp(0.5rem, 2vw, 1.5rem); }
-  .intro h1 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.5em; }
-  .scripts { font-size: 0.42em; color: var(--ink-soft); }
+  .intro { margin-top: clamp(2rem, 4vw, 3rem); }
   .lede { font-size: 1.2em; line-height: 1.5; }
 
   h2 a { color: inherit; text-decoration: none; }

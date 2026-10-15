@@ -1,0 +1,110 @@
+---
+import { Picture } from 'astro:assets';
+import banner1 from '../assets/photos/web-banner1.jpg';
+import banner2 from '../assets/photos/web-banner2.jpg';
+import banner2a from '../assets/photos/web-banner2a.jpg';
+import banner3 from '../assets/photos/web-banner3.jpg';
+import banner5 from '../assets/photos/web-banner5.jpg';
+import banner6 from '../assets/photos/web-banner6.jpg';
+import banner7 from '../assets/photos/web-banner7.jpg';
+import banner8 from '../assets/photos/web-banner8.jpg';
+const slides = [
+  { src: banner1, alt: 'A stone house with a vine-covered porch and cane chairs in golden evening light' },
+  { src: banner2, alt: 'Orange and gold sunset clouds above mountain ridges and a valley' },
+  { src: banner2a, alt: 'Sunbeams over the hills behind slate-roofed stone houses and green gardens' },
+  { src: banner3, alt: 'An outdoor dining table with white chairs and a large parasol overlooking the hills' },
+  { src: banner5, alt: 'Three views of a stone cottage and its warmly lit porch at dusk' },
+  { src: banner6, alt: 'A collage of lemons, plums, apricots, strawberries and peaches' },
+  { src: banner7, alt: 'Red sunset clouds above dark hills dotted with lights' },
+  { src: banner8, alt: 'A collage of four dogs resting on chairs and stone steps' },
+];
+---
+<aikkya-banner role="region" aria-roledescription="carousel" aria-label="Aikkya in pictures">
+  <div class="viewport">
+    <div class="track">
+      {slides.map((slide, i) => (
+        <div class="slide" role="group" aria-roledescription="slide" aria-label={`${i + 1} of ${slides.length}`} aria-hidden={i !== 0 ? 'true' : 'false'}>
+          <Picture src={slide.src} alt={slide.alt} width={2000} widths={[480, 960, 1400, 2000]} sizes="(min-width: 1480px) 1400px, 100vw" formats={['webp']} loading="eager" fetchpriority={i === 0 ? 'high' : 'low'} />
+        </div>
+      ))}
+    </div>
+  </div>
+  <div class="controls" role="group" aria-label="Choose a banner picture" aria-describedby="banner-help" hidden>
+    {slides.map((_, i) => (
+      <button type="button" data-dot={i} aria-label={`Show picture ${i + 1}`} aria-pressed={i === 0 ? 'true' : 'false'}><span aria-hidden="true"></span></button>
+    ))}
+  </div>
+  <span id="banner-help" class="visually-hidden">Choose a dot to pause on that picture. Choose the selected dot to pause or resume the slideshow.</span>
+</aikkya-banner>
+
+<style>
+  aikkya-banner { display: block; padding-inline: var(--gutter); }
+  .viewport, .controls { max-width: 1400px; margin-inline: auto; }
+  .viewport { overflow: hidden; }
+  .track { display: grid; }
+  .slide { grid-area: 1 / 1; min-width: 0; opacity: 0; visibility: hidden; transition: opacity 600ms ease, visibility 600ms; }
+  .slide[aria-hidden='false'] { opacity: 1; visibility: visible; }
+  .slide :global(img) { width: 100%; height: auto; aspect-ratio: 7331 / 3647; object-fit: contain; }
+  .controls { display: flex; align-items: center; justify-content: center; padding-top: 0.25rem; }
+  .controls[hidden] { display: none; }
+  button { display: grid; place-items: center; width: 36px; height: 44px; padding: 0; border: 0; background: transparent; cursor: pointer; }
+  button span { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-soft); opacity: 0.4; transition: opacity 300ms ease, transform 300ms ease; }
+  button[aria-pressed='true'] span { opacity: 1; transform: scale(1.4); }
+  button:hover span { opacity: 1; }
+  @media (max-width: 40rem) { aikkya-banner { padding-inline: 0; } }
+  @media (prefers-reduced-motion: reduce) { .slide, button span { transition: none; } }
+</style>
+
+<script>
+  class AikkyaBanner extends HTMLElement {
+    private timer?: ReturnType<typeof setInterval>;
+    private events?: AbortController;
+    connectedCallback() {
+      if (this.events) return;
+      this.events = new AbortController();
+      const { signal } = this.events;
+      const slides = [...this.querySelectorAll<HTMLElement>('.slide')];
+      const dots = [...this.querySelectorAll<HTMLButtonElement>('[data-dot]')];
+      const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+      let playing = !reducedMotion.matches;
+      let index = 0;
+      const update = () => {
+        this.dataset.playing = String(playing);
+        slides.forEach((slide, i) => slide.setAttribute('aria-hidden', String(i !== index)));
+        dots.forEach((dot, i) => {
+          const selected = i === index;
+          dot.setAttribute('aria-pressed', String(selected));
+          const action = selected ? (playing ? 'Pause slideshow' : 'Resume slideshow') : `Show picture ${i + 1} and pause`;
+          dot.setAttribute('aria-label', selected ? `Picture ${i + 1}. ${action}` : action);
+          dot.title = action;
+        });
+      };
+      const startTimer = () => {
+        clearInterval(this.timer);
+        this.timer = undefined;
+        if (playing && !document.hidden) {
+          this.timer = setInterval(() => { index = (index + 1) % slides.length; update(); }, 2000);
+        }
+      };
+      dots.forEach((dot, i) => dot.addEventListener('click', () => {
+        playing = i === index ? !playing : false;
+        index = i;
+        update();
+        startTimer();
+      }, { signal }));
+      document.addEventListener('visibilitychange', startTimer, { signal });
+      reducedMotion.addEventListener('change', () => {
+        if (reducedMotion.matches) { playing = false; update(); startTimer(); }
+      }, { signal });
+      this.querySelector<HTMLElement>('.controls')!.hidden = false;
+      update();
+      startTimer();
+    }
+    disconnectedCallback() {
+      clearInterval(this.timer);
+      this.events?.abort();
+      this.events = undefined;
+    }
+  }
+  if (!customElements.get('aikkya-banner')) customElements.define('aikkya-banner', AikkyaBanner);
+</script>

@@ -1,0 +1,14 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/aikkya-logo.png';
+interface Props { class?: string; }
+const { class: className } = Astro.props;
+---
+<span class:list={['logo', className]}>
+  <Image src={logo} alt="Aikkya" widths={[192, 384, 768]} sizes="(max-width: 640px) 160px, 200px" format="webp" loading="eager" />
+</span>
+<style>
+  /* Frame the existing artwork without its surrounding white space. */
+  .logo { display: inline-block; position: relative; width: 12rem; aspect-ratio: 752 / 688; overflow: hidden; flex-shrink: 0; mix-blend-mode: multiply; }
+  .logo :global(img) { position: absolute; width: 157.18%; max-width: none; height: auto; left: -26.6%; top: -30%; }
+</style>
