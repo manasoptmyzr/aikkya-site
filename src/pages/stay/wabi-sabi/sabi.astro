@@ -1,0 +1,13 @@
+---
+import Base from '../../../layouts/Base.astro';
+import SuiteGallery from '../../../components/SuiteGallery.astro';
+import { sabiGroups } from '../../../data/sabi-gallery';
+---
+<Base title="Sabi" description="Explore photographs of Sabi at Aikkya in Seetla, near Mukteshwar: the bedroom, sitting areas, room details and bathroom.">
+  <div class="suite-heading"><h1>Sabi</h1></div>
+  <SuiteGallery groups={sabiGroups} />
+</Base>
+<style>
+  .suite-heading { padding: 0.75rem var(--gutter) 1.75rem; text-align: center; }
+  h1 { margin: 0; font-family: 'TC Jimmy Serif Pro', var(--serif); font-weight: 700; font-size: clamp(2rem, 1.5rem + 1.5vw, 2.75rem); }
+</style>

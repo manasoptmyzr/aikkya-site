@@ -1,0 +1,50 @@
+---
+import Photo from './Photo.astro';
+import kintsugiThumbnail from '../assets/photos/kintsugi-thumbnail.jpg';
+import aFrameThumbnail from '../assets/photos/a-frame-thumbnail.jpg';
+import wabiSabiThumbnail from '../assets/photos/wabi-sabi-thumbnail.jpg';
+
+const roomCards = [
+  { id: 'kintsugi', name: 'Kintsugi', photo: kintsugiThumbnail, alt: 'Kintsugi at dusk, with a slate roof, glowing porch and stone courtyard beneath leafy branches' },
+  { id: 'a-frame-of-mind', name: 'A-frame of Mind', photo: aFrameThumbnail, alt: 'A wooden A-frame cottage among green trees, with warm windows and a stone path at sunset' },
+  { id: 'wabi-sabi', name: 'Wabi Sabi', photo: wabiSabiThumbnail, alt: 'A two-storey stone house with lit windows and a slate roof below forest and an evening sky' },
+];
+
+---
+  <section class="wide rooms">
+    <h1 class="visually-hidden">Stay</h1>
+    <div class="room-grid">
+      {roomCards.map((r) => (
+        <figure class="room">
+          <a href={`/stay/${r.id}/`} aria-label={`View ${r.name} room pictures`}>
+            <Photo src={r.photo} alt={r.alt} sizes="(min-width: 1480px) 450px, (min-width: 640px) 31vw, 100vw" />
+          </a>
+          <figcaption><a href={`/stay/${r.id}/`}>{r.name}</a></figcaption>
+        </figure>
+      ))}
+    </div>
+  </section>
+<style>
+  .rooms { width: calc(100% - 2 * var(--gutter)); max-width: 1400px; padding-inline: 0; margin-top: 0; }
+  .room-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1rem, 2.5vw, 2rem); }
+  .room { min-width: 0; position: relative; }
+  .room > a { display: block; }
+  .room :global(img) { width: 100%; height: auto; aspect-ratio: 1768 / 2480; object-fit: contain; }
+  .room figcaption {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    margin: 0;
+    background: rgb(35 27 20 / 72%);
+    font-family: 'TC Jimmy Serif Pro', var(--serif);
+    font-weight: 700;
+    font-style: italic;
+    font-size: calc(clamp(1.125rem, 1rem + 0.4vw, 1.5rem) + 2px);
+    color: #fff;
+    text-align: center;
+  }
+  .room figcaption a { display: block; padding: 0.45rem 0.4rem; color: #fff; text-decoration: none; }
+  .room figcaption a:hover { text-decoration: underline; }
+  @media (max-width: 39.99rem) { .room-grid { grid-template-columns: 1fr; gap: 2rem; } }
+
+</style>

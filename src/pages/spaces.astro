@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import loungeCover from '../assets/photos/aikkya-lounge-cover.jpg';
+---
+<Base title="Lounge & Kitchen" description="Photographs of the lounge and kitchen at Aikkya in Seetla, Kumaon, with its dining tables, window seating, books and collected objects.">
+  <div class="lounge-heading">
+    <h1>Lounge &amp; Kitchen</h1>
+  </div>
+  <div class="lounge-folders">
+    <a class="lounge-folder" href="/aikkya-lounge/">
+      <div class="folder-cover"><Photo src={loungeCover} alt="Aikkya Lounge glowing with warm light beneath a misty blue evening sky" priority sizes="(min-width: 500px) 430px, 92vw" /></div>
+      <span>Aikkya Lounge</span>
+    </a>
+  </div>
+  <section class="text" id="aikkya-menu" aria-labelledby="aikkya-menu-heading">
+    <h2 id="aikkya-menu-heading">Aikkya Menu</h2>
+    <p>Menu coming soon.</p>
+  </section>
+</Base>
+
+<style>
+  .lounge-heading { padding: 0.75rem var(--gutter) 1.75rem; text-align: center; }
+  h1 { margin: 0; font-family: 'TC Jimmy Serif Pro', var(--serif); font-weight: 700; font-size: clamp(2rem, 1.5rem + 1.5vw, 2.75rem); }
+  .lounge-folders { width: calc(100% - 2 * var(--gutter)); max-width: 900px; margin: 0 auto 4rem; }
+  .lounge-folder { display: grid; width: 100%; max-width: 430px; gap: 1rem; padding-bottom: 1rem; border: 1px solid #d8cec5; text-decoration: none; text-align: center; font-family: 'TC Jimmy Serif Pro', var(--serif); font-weight: 700; font-size: clamp(1.5rem, 2.5vw, 2rem); }
+  .folder-cover { aspect-ratio: 3 / 4; overflow: hidden; }
+  .folder-cover :global(picture), .folder-cover :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .lounge-folder:hover { background: #faf8f5; border-color: var(--coffee); }
+</style>

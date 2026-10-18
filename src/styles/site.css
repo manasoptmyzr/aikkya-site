@@ -1,3 +1,11 @@
+  @font-face {
+    font-family: 'TC Jimmy Serif Pro';
+    src: url('/fonts/tc-jimmy-serif-pro-bold.otf') format('opentype');
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+  }
+
 /* Colours taken from the place: whitewash, stone, pine, the blue glass bottle,
    the gold in the floor's cracks, the rug, and the sky just after sunset. */
 /* Hindi and Bangla type for the name (ऐक्य, ঐক্য). These files hold only those letters
@@ -17,14 +25,15 @@
 }
 
 :root {
-  --lime: #f5f1e8;
+  --lime: #ffffff;
   --lime-deep: #ebe4d6;
-  --ink: #2a2520;
-  --ink-soft: #5e564d;
+  --coffee: #694a36;
+  --ink: var(--coffee);
+  --ink-soft: var(--coffee);
   --gold: #b08a3e;
   --pine: #a8682f;
-  --glass: #1d6a70;
-  --rug: #a9502e;
+  --glass: var(--coffee);
+  --rug: var(--coffee);
   --dusk: #2e2c42;
   --dusk-text: #e8e2d4;
 
@@ -45,7 +54,6 @@ html {
 
 body {
   margin: 0;
-  /* The same handmade paper carries through every page, including the footer. */
   background: var(--lime);
   position: relative;
   isolation: isolate;
@@ -56,16 +64,6 @@ body {
   line-height: 1.6;
   font-variant-numeric: oldstyle-nums proportional-nums;
   -webkit-font-smoothing: antialiased;
-}
-
-/* One high-resolution sheet fills the viewport without tiles or joins. */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: url('/handmade-paper-fine.webp') center / cover no-repeat;
 }
 
 img, picture, svg { display: block; max-width: 100%; height: auto; }
@@ -114,24 +112,32 @@ section { margin-block: clamp(3.5rem, 8vw, 7rem); }
   letter-spacing: 0.01em;
 }
 .mark:hover { color: var(--ink); }
+.top nav {
+  width: 100%;
+  overflow-x: auto;
+  padding-block: 0.25rem;
+}
 .top nav ul {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.75rem clamp(1.5rem, 4vw, 2.5rem);
-  font-size: 1rem;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-width: max-content;
+  gap: clamp(0.875rem, 1.75vw, 1.75rem);
+  font-family: 'TC Jimmy Serif Pro', var(--serif);
+  font-weight: 700;
+  font-size: clamp(1rem, 0.75rem + 0.6vw, 1.375rem);
 }
-.top nav a { color: var(--ink); text-decoration: none; }
+.top nav li { flex: 0 0 auto; }
+.top nav a { white-space: nowrap; color: var(--ink); text-decoration: none; }
 .top nav a:hover, .top nav a[aria-current='page'] { color: var(--rug); }
 .top nav a[aria-current='page'] { text-decoration: underline; text-decoration-color: var(--gold); }
 
-@media (max-width: 40rem) {
-  .top nav { width: 100%; }
-  .top nav ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem 0.5rem; text-align: center; }
-}
+
 
 .visually-hidden {
   position: absolute;

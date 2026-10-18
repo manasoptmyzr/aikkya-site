@@ -1,0 +1,26 @@
+---
+import Photo from './Photo.astro';
+import { sabiCover } from '../data/sabi-gallery';
+import { wabiCover } from '../data/wabi-gallery';
+const suites = [
+  { name: 'Wabi', cover: wabiCover, alt: 'A mountain relief artwork framed above the Wabi day bed' },
+  { name: 'Sabi', cover: sabiCover, alt: 'A rocking chair beside the circular forest artwork in Sabi' },
+];
+---
+<div class="suite-folders">
+  {suites.map(({ name, cover, alt }) => (
+    <a class="suite-folder with-cover" href={`/stay/wabi-sabi/${name.toLowerCase()}/`}>
+      <div class:list={["suite-cover", { "canvas-closeup": name === "Sabi" }]}><Photo src={cover} alt={alt} sizes="(min-width: 960px) 430px, 45vw" /></div>
+      <span>{name}</span>
+    </a>
+  ))}
+</div>
+<style>
+  .suite-folders { width: calc(100% - 2 * var(--gutter)); max-width: 900px; margin: 0 auto 4rem; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 3vw, 2.5rem); }
+  .suite-folder { display: grid; justify-items: center; align-content: center; gap: 1rem; padding: clamp(2rem, 5vw, 4rem) 1rem; border: 1px solid #d8cec5; text-decoration: none; font-family: 'TC Jimmy Serif Pro', var(--serif); font-weight: 700; font-size: clamp(1.5rem, 2.5vw, 2rem); }
+  .suite-folder.with-cover { padding: 0 0 1rem; align-content: start; }
+  .suite-cover { width: 100%; aspect-ratio: 4 / 3; overflow: hidden; }
+  .suite-cover :global(picture), .suite-cover :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .canvas-closeup :global(img) { transform: scale(1.85); transform-origin: 40% 21%; }
+  .suite-folder:hover { background: #faf8f5; border-color: var(--coffee); }
+</style>

@@ -10,7 +10,6 @@ import BannerSlideshow from '../components/BannerSlideshow.astro';
 import Press from '../components/Press.astro';
 import sunset from '../assets/photos/sunset-roofs.jpg';
 import bottle from '../assets/photos/kintsugi-bath-mirror.jpg';
-
 const rooms = (await getCollection('rooms')).sort((a, b) => a.data.order - b.data.order);
 const posts = (await journalPosts()).slice(0, 3);
 const words = (await inOrder('kindWords')).filter((w) => w.data.featured);
@@ -18,10 +17,16 @@ const words = (await inOrder('kindWords')).filter((w) => w.data.featured);
 <Base schema={lodging(rooms.map((r) => r.data))}>
   <BannerSlideshow />
 
-  <section class="text intro">
+  <section class="intro">
     <h1 class="visually-hidden">Aikkya</h1>
-    <p class="lede">A farm on a quiet hillside in Seetla, Kumaon. Seven and a half acres of fruit trees and forest, a few old stone houses we restored, an A-frame, and a lot of sky. Cows, dogs, and sometimes a cat named Billi.</p>
-    <p>We're Shivani and Avijeet. We live here, and a few guests at a time stay with us.</p>
+    <p>Spread over 7.5 acres of forest and fruit orchard, Aikkya is the only home on this hillside.</p>
+    <p>You can choose to stay in our almost 80-year-old Kumaoni stone cottages, lovingly and at times painstakingly restored and renovated to preserve their original character. Or settle into our A-frame cottage, tucked between a persimmon tree and a pear tree. Built around the idea of a tiny home, it makes thoughtful use of the little space between the two. Each has its own quiet charm.</p>
+    <p>At the heart of Aikkya is a spacious dining area and lounge, with a home kitchen serving home-cooked meals and snacks. We try to grow as much of our food organically as we can and source much of the rest locally. Our bread is baked in-house or comes from local bakers. We source single-origin coffee from estates in Coorg and elsewhere, and grind it fresh here. You can <a href="/spaces/#aikkya-menu"><strong><em>Pre-Book a Meal</em></strong></a> with us if you are in the area.</p>
+    <p>We face west, and the sunsets often leave us lost for words. The Greater Himalayan peaks aren’t visible from Aikkya itself, but a 15-minute walk uphill or a three-minute drive takes you to the other side of the mountain. On a clear day, the views stretch from Kedarnath to Panchachuli and into Nepal.</p>
+    <p>This is a farm. An orchard. A forest. Cows, dogs and insects all call it home. We ask that you choose to stay with us only if you’re comfortable sharing the space with them. While you’re here, do say hello to the resident cows and our dogs, Julie, Motu and, when they’re around, Shifu and Boltu.</p>
+    <h2>A few things to know before you choose to stay with us :</h2>
+    <p>There is no room service, and all meals and snacks are served and eaten in the dining area or outside. We do not serve food in the rooms.</p>
+    <p>We don’t have full power backup, but an inverter keeps the essentials running, including the Wi-Fi. Power cuts, when they happen, usually last less than an hour, though a fault in the line can sometimes mean a longer wait. We’ll do our best to keep you comfortable and ask for your understanding when life in the hills takes an unpredictable turn.</p>
   </section>
 
   <section class="text news">
@@ -31,19 +36,7 @@ const words = (await inOrder('kindWords')).filter((w) => w.data.featured);
 
   <Seam />
 
-  <section class="wide rooms">
-    <h2><a href="/stay/">Stay</a></h2>
-    <div class="room-grid">
-      {rooms.map((r, i) => (
-        <figure class={`room room-${i}`}>
-          <a href={`/stay/#${r.id}`} tabindex="-1" aria-hidden="true">
-            <Photo src={r.data.photos[0].src} alt={r.data.photos[0].alt} sizes={i === 0 ? '(min-width: 60rem) 45rem, 100vw' : '(min-width: 60rem) 28rem, 100vw'} />
-          </a>
-          <figcaption><a href={`/stay/#${r.id}`}>{r.data.name}</a>. {r.data.line}</figcaption>
-        </figure>
-      ))}
-    </div>
-  </section>
+
 
   <section class="text">
     <p>Most of what's here is old. Stone walls, wooden doors and beams, and floors painted to look broken and mended. We would rather mend a thing than replace it.</p>
@@ -87,20 +80,37 @@ const words = (await inOrder('kindWords')).filter((w) => w.data.featured);
 </Base>
 
 <style>
-  .intro { margin-top: clamp(2rem, 4vw, 3rem); }
-  .lede { font-size: 1.2em; line-height: 1.5; }
+  .intro {
+    width: calc(100% - 2 * var(--gutter));
+    max-width: 1400px;
+    margin-inline: auto;
+    margin-top: clamp(2rem, 4vw, 3rem);
+    font-family: 'TC Jimmy Serif Pro', var(--serif);
+    font-weight: 700;
+    font-size: clamp(1.125rem, 1rem + 0.35vw, 1.375rem);
+    line-height: 1.6;
+    word-spacing: -0.025em;
+    color: var(--coffee);
+    text-align: left;
+  }
+  .intro p {
+    margin-bottom: 1.05em;
+    text-align: justify;
+    text-align-last: left;
+    text-justify: inter-word;
+  }
+  /* Short phone lines stay naturally spaced rather than stretching words. */
+  @media (max-width: 40rem) { .intro p { text-align: left; } }
+  .intro h2 {
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 1.15em;
+    line-height: 1.5;
+    margin: 1.75em 0 0.65em;
+  }
 
   h2 a { color: inherit; text-decoration: none; }
   h2 a:hover { color: var(--rug); }
-
-  .room-grid { display: grid; gap: 2rem 1.5rem; }
-  .room :global(img) { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
-  @media (min-width: 60rem) {
-    .room-grid { grid-template-columns: 1.6fr 1fr; }
-    .room-0 { grid-row: span 2; display: flex; flex-direction: column; }
-    .room-0 > a { flex: 1; display: block; position: relative; min-height: 20rem; }
-    .room-0 :global(img) { position: absolute; inset: 0; height: 100%; aspect-ratio: auto; }
-  }
 
   .pair { display: grid; gap: 1.5rem; grid-template-columns: 1fr 1fr; align-items: start; }
   .pair figure:last-child { margin-top: clamp(2rem, 8vw, 6rem); }

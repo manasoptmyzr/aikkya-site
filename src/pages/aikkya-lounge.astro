@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import SuiteGallery from '../components/SuiteGallery.astro';
+import { loungeGroups } from '../data/lounge-gallery';
+---
+<Base title="Aikkya Lounge" description="Explore Aikkya Lounge in Seetla, Kumaon through photographs of its dining tables, window seating, books, artwork and collected objects.">
+  <div class="lounge-heading"><h1>Aikkya Lounge</h1></div>
+  <SuiteGallery groups={loungeGroups} />
+</Base>
+<style>
+  .lounge-heading { padding: 0.75rem var(--gutter) 1.75rem; text-align: center; }
+  h1 { margin: 0; font-family: 'TC Jimmy Serif Pro', var(--serif); font-weight: 700; font-size: clamp(2rem, 1.5rem + 1.5vw, 2.75rem); }
+</style>

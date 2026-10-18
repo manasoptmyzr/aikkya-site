@@ -3,11 +3,11 @@ import Logo from './Logo.astro';
 import { site } from '../site';
 const links = [
   { href: '/stay/', label: 'Stay' },
-  { href: '/journal/', label: 'Life at Aikkya' },
-  { href: '/us/', label: 'Us' },
-  { href: '/kind-words/', label: 'Kind words' },
-  { href: '/getting-here/', label: 'Getting here' },
-  { href: '/say-hello/', label: 'Say hello' },
+  { href: '/spaces/', label: 'Lounge & Kitchen' },
+  { href: '/journal/', label: 'Things We Do' },
+  { href: '/places-around/', label: 'Out & About' },
+  { href: '/kind-words/', label: 'Guestbook' },
+  { href: '/say-hello/', label: 'Contact' },
 ];
 const path = Astro.url.pathname.replace(/\/?$/, '/');
 const current = (href: string) => path === href || (href !== '/' && path.startsWith(href));
@@ -31,7 +31,7 @@ const current = (href: string) => path === href || (href !== '/' && path.startsW
 </header>
 
 <style>
-  .mark :global(.logo) { display: block; width: 6rem; }
+  .mark :global(.logo) { display: block; width: 8rem; }
   .top { position: relative; }
   .ig {
     position: absolute;

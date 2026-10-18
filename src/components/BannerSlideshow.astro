@@ -8,15 +8,19 @@ import banner5 from '../assets/photos/web-banner5.jpg';
 import banner6 from '../assets/photos/web-banner6.jpg';
 import banner7 from '../assets/photos/web-banner7.jpg';
 import banner8 from '../assets/photos/web-banner8.jpg';
+import banner9 from '../assets/photos/web-banner9.jpg';
+import banner10 from '../assets/photos/web-banner10.jpg';
 const slides = [
   { src: banner1, alt: 'A stone house with a vine-covered porch and cane chairs in golden evening light' },
   { src: banner2, alt: 'Orange and gold sunset clouds above mountain ridges and a valley' },
-  { src: banner2a, alt: 'Sunbeams over the hills behind slate-roofed stone houses and green gardens' },
-  { src: banner3, alt: 'An outdoor dining table with white chairs and a large parasol overlooking the hills' },
   { src: banner5, alt: 'Three views of a stone cottage and its warmly lit porch at dusk' },
+  { src: banner2a, alt: 'Sunbeams over the hills behind slate-roofed stone houses and green gardens' },
   { src: banner6, alt: 'A collage of lemons, plums, apricots, strawberries and peaches' },
+  { src: banner3, alt: 'An outdoor dining table with white chairs and a large parasol overlooking the hills' },
+  { src: banner9, alt: 'Three winter views of snow-covered cottages, an outdoor dining area and garden steps at Aikkya' },
   { src: banner7, alt: 'Red sunset clouds above dark hills dotted with lights' },
   { src: banner8, alt: 'A collage of four dogs resting on chairs and stone steps' },
+  { src: banner10, alt: 'Three views of white and pink fruit-tree blossoms against a bright blue spring sky' },
 ];
 ---
 <aikkya-banner role="region" aria-roledescription="carousel" aria-label="Aikkya in pictures">
@@ -47,9 +51,10 @@ const slides = [
 <style>
   aikkya-banner { display: block; padding-inline: var(--gutter); }
   .viewport, .controls { max-width: 1400px; margin-inline: auto; }
-  .viewport { overflow: hidden; }
+  .viewport { overflow: hidden; opacity: 1; transition: opacity 900ms ease-in-out; }
+  aikkya-banner[data-fading="true"] .viewport { opacity: 0; }
   .track { display: grid; }
-  .slide { grid-area: 1 / 1; min-width: 0; opacity: 0; visibility: hidden; transition: opacity 600ms ease, visibility 600ms; }
+  .slide { grid-area: 1 / 1; min-width: 0; opacity: 0; visibility: hidden; }
   .slide[aria-hidden='false'] { opacity: 1; visibility: visible; }
   .slide :global(img) { width: 100%; height: auto; aspect-ratio: 7331 / 3647; object-fit: contain; }
   .controls { display: flex; align-items: center; justify-content: center; padding-top: 0.25rem; }
@@ -58,13 +63,13 @@ const slides = [
   button span { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-soft); opacity: 0.4; transition: opacity 300ms ease, transform 300ms ease; }
   button[aria-pressed='true'] span { opacity: 1; transform: scale(1.4); }
   button:hover span { opacity: 1; }
-  @media (max-width: 40rem) { aikkya-banner { padding-inline: 0; } }
-  @media (prefers-reduced-motion: reduce) { .slide, button span { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { .viewport, button span { transition: none; } }
 </style>
 
 <script>
   class AikkyaBanner extends HTMLElement {
-    private timer?: ReturnType<typeof setInterval>;
+    private timer?: ReturnType<typeof setTimeout>;
+    private fadeTimer?: ReturnType<typeof setTimeout>;
     private events?: AbortController;
     connectedCallback() {
       if (this.events) return;
@@ -86,23 +91,35 @@ const slides = [
           dot.title = action;
         });
       };
-      const startTimer = () => {
-        clearInterval(this.timer);
+      const startTimer = (delay = 3000) => {
+        clearTimeout(this.timer);
         this.timer = undefined;
         if (playing && !document.hidden) {
-          this.timer = setInterval(() => { index = (index + 1) % slides.length; update(); }, 2000);
+          this.timer = setTimeout(() => {
+            const fadeDuration = reducedMotion.matches ? 0 : 900;
+            this.dataset.fading = 'true';
+            this.fadeTimer = setTimeout(() => {
+              index = (index + 1) % slides.length;
+              update();
+              this.dataset.fading = 'false';
+              // Finish fading in, then hold the fully visible photo for three seconds.
+              startTimer(fadeDuration + 3000);
+            }, fadeDuration);
+          }, delay);
         }
       };
       dots.forEach((dot, i) => dot.addEventListener('click', () => {
         this.querySelectorAll<HTMLTemplateElement>('template[data-later]').forEach((t) => t.replaceWith(t.content.cloneNode(true)));
+        clearTimeout(this.fadeTimer);
+        this.dataset.fading = 'false';
         playing = i === index ? !playing : false;
         index = i;
         update();
         startTimer();
       }, { signal }));
-      document.addEventListener('visibilitychange', startTimer, { signal });
+      document.addEventListener('visibilitychange', () => startTimer(), { signal });
       reducedMotion.addEventListener('change', () => {
-        if (reducedMotion.matches) { playing = false; update(); startTimer(); }
+        if (reducedMotion.matches) { clearTimeout(this.fadeTimer); this.dataset.fading = 'false'; playing = false; update(); startTimer(); }
       }, { signal });
       // Bring in the other photos once the page has finished loading, then start the slideshow.
       const loadRest = () => {
@@ -115,7 +132,8 @@ const slides = [
       else window.addEventListener('load', loadRest, { once: true, signal });
     }
     disconnectedCallback() {
-      clearInterval(this.timer);
+      clearTimeout(this.timer);
+      clearTimeout(this.fadeTimer);
       this.events?.abort();
       this.events = undefined;
     }

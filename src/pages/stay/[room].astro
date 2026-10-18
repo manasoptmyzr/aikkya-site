@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Photo from '../../components/Photo.astro';
+import KintsugiGallery from '../../components/KintsugiGallery.astro';
+import SuiteFolders from '../../components/SuiteFolders.astro';
+
+export async function getStaticPaths() {
+  return (await getCollection('rooms')).map((room) => ({
+    params: { room: room.id },
+    props: { room },
+  }));
+}
+const { room } = Astro.props;
+const names = { 'kintsugi': 'Kintsugi', 'a-frame-of-mind': 'A-frame of Mind', 'wabi-sabi': 'Wabi Sabi' };
+const name = names[room.id] ?? room.data.name;
+---
+<Base title={name} description={`Room photographs of ${name} at Aikkya, a farm stay in Seetla, near Mukteshwar in Kumaon.`}>
+  <div class="room-heading">
+    <h1>{name}</h1>
+  </div>
+  {room.id === 'kintsugi' ? (
+    <KintsugiGallery photos={room.data.photos} />
+  ) : room.id === 'wabi-sabi' ? (
+    <SuiteFolders />
+  ) : (
+  <section class="wide room-gallery" aria-label={`${name} room pictures`}>
+    {room.data.photos.map((photo, i) => (
+      <figure class:list={{ first: i === 0 }}>
+        <Photo src={photo.src} alt={photo.alt} priority={i === 0} sizes={i === 0 ? '(min-width: 1280px) 1104px, 100vw' : '(min-width: 640px) 50vw, 100vw'} />
+      </figure>
+    ))}
+  </section>
+  )}
+
+</Base>
+<style>
+  .room-heading { padding: 0.75rem var(--gutter) 1.75rem; text-align: center; }
+  h1 { margin: 0; font-family: 'TC Jimmy Serif Pro', var(--serif); font-weight: 700; font-size: clamp(2rem, 1.5rem + 1.5vw, 2.75rem); color: var(--coffee); }
+  .room-gallery { margin-top: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; align-items: start; }
+  .first { grid-column: 1 / -1; }
+  .room-gallery :global(img) { width: 100%; height: auto; }
+  @media (max-width: 40rem) { .room-gallery { grid-template-columns: 1fr; } }
+</style>

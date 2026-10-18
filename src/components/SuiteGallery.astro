@@ -1,0 +1,35 @@
+---
+import Photo from './Photo.astro';
+import type { ImageMetadata } from 'astro';
+interface Props {
+  groups: { label: string; rows: { format: string; photos: { src: ImageMetadata; alt: string }[] }[] }[];
+}
+const { groups } = Astro.props;
+---
+<div class="suite-gallery">
+  {groups.map((group, groupIndex) => (
+    <section class="photo-group" aria-label={group.label}>
+      {group.rows.map((row, rowIndex) => (
+        <div class:list={['photo-row', row.format, { single: row.photos.length === 1, three: row.photos.length === 3 }]}>
+          {row.photos.map((photo, photoIndex) => (
+            <figure><Photo src={photo.src} alt={photo.alt} priority={groupIndex === 0 && rowIndex === 0 && photoIndex === 0} sizes={row.photos.length === 1 && row.format !== 'portrait' ? '(min-width: 1480px) 1400px, 100vw' : row.photos.length === 3 ? '(min-width: 1480px) 450px, (min-width: 640px) 31vw, 100vw' : '(min-width: 1480px) 688px, (min-width: 640px) 47vw, 100vw'} /></figure>
+          ))}
+        </div>
+      ))}
+    </section>
+  ))}
+</div>
+<style>
+  .suite-gallery { width: calc(100% - 2 * var(--gutter)); max-width: 1400px; margin-inline: auto; --photo-gap: clamp(0.75rem, 1.8vw, 1.5rem); }
+  .photo-group { margin: 0 0 clamp(2.5rem, 5vw, 4.5rem); display: grid; gap: var(--photo-gap); }
+  .photo-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--photo-gap); }
+  .photo-row.single { grid-template-columns: 1fr; }
+  .photo-row.portrait.single { width: calc((100% - var(--photo-gap)) / 2); margin-inline: auto; }
+  .photo-row.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  figure { min-width: 0; overflow: hidden; }
+  figure :global(picture) { width: 100%; height: 100%; }
+  figure :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .landscape figure { aspect-ratio: 4 / 3; }
+  .portrait figure { aspect-ratio: 3 / 4; }
+  @media (max-width: 40rem) { .photo-row, .photo-row.three { grid-template-columns: 1fr; } .photo-row.portrait.single { width: 100%; } }
+</style>

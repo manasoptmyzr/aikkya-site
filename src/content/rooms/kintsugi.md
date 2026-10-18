@@ -5,14 +5,28 @@ line: A restored stone cottage with a hand-painted floor.
 sleeps: Two
 size: About 200 sq ft
 photos:
-  - src: ../../assets/photos/kintsugi-sitting-corner.jpg
-    alt: Two cane chairs by an old whitewashed fireplace in Kintsugi, with a painting of the mountains above
-  - src: ../../assets/photos/kintsugi-room.jpg
-    alt: Kintsugi's high ceiling with log beams, a chest of drawers and the painted floor
-  - src: ../../assets/photos/kintsugi-bath-basin.jpg
-    alt: The basin in Kintsugi's bathroom, under a wooden ceiling and a skylight
-  - src: ../../assets/photos/kintsugi-bath-mirror.jpg
-    alt: A pebble-shaped mirror and a blue glass bottle in a niche in Kintsugi's bathroom
+  - src: ../../assets/photos/kintsugi-gallery/img_2373-3.jpg
+    alt: The front of Kintsugi beneath a blue evening sky, with cane chairs on the porch
+  - src: ../../assets/photos/kintsugi-gallery/img_2365.jpg
+    alt: Kintsugi porch and stone courtyard in warm evening light
+  - src: ../../assets/photos/kintsugi-gallery/img_2366.jpg
+    alt: A side view of Kintsugi, with a slate roof, porch seating and garden at dusk
+  - src: ../../assets/photos/kintsugi-gallery/img_5651.jpg
+    alt: Kintsugi bed beneath white timber rafters, with a window seat and painted floor
+  - src: ../../assets/photos/kintsugi-gallery/img_5659-2.jpg
+    alt: Cane chairs beside the fireplace, with a mountain painting above and a doorway to the porch
+  - src: ../../assets/photos/kintsugi-gallery/img_3929.jpg
+    alt: Wooden doors, a chest of drawers and exposed roof beams in Kintsugi
+  - src: ../../assets/photos/kintsugi-gallery/img_3934.jpg
+    alt: The corner of Kintsugi bed beside a window and lit wall niches
+  - src: ../../assets/photos/kintsugi-gallery/img_5654.jpg
+    alt: Wooden drawers, a window seat and a hanging red lamp in Kintsugi
+  - src: ../../assets/photos/kintsugi-gallery/img_3947.jpg
+    alt: Kintsugi bathroom basin and pebble-shaped mirror beneath a wooden ceiling
+  - src: ../../assets/photos/kintsugi-gallery/img_4319.jpg
+    alt: A potted plant on the bathroom windowsill, with trees and blue sky outside
+  - src: ../../assets/photos/kintsugi-gallery/img_3949-cleaned.jpg
+    alt: Kintsugi bathroom with wood-lined shower, skylight and a window beside the toilet
 ---
 Kintsugi is an old Kumaoni stone cottage that we restored. It's one room with a queen bed, a corner to sit in, and a bathroom with a skylight over the shower.
 

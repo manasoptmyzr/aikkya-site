@@ -1,0 +1,51 @@
+---
+import Photo from './Photo.astro';
+import type { ImageMetadata } from 'astro';
+interface Props { photos: { src: ImageMetadata; alt: string }[]; }
+const { photos } = Astro.props;
+const groups = [
+  { label: 'Kintsugi outside and porch', rows: [
+    { format: 'landscape', photos: photos.slice(0, 1) },
+    { format: 'portrait', photos: photos.slice(1, 3) },
+  ] },
+  { label: 'Inside Kintsugi', rows: [
+    { format: 'landscape', photos: photos.slice(3, 4) },
+    { format: 'landscape', photos: photos.slice(4, 5) },
+    { format: 'portrait', photos: photos.slice(5, 8) },
+  ] },
+  { label: 'Kintsugi bathroom', rows: [
+    { format: 'portrait', photos: photos.slice(8, 11) },
+  ] },
+];
+---
+<div class="kintsugi-gallery">
+  {groups.map((group, groupIndex) => (
+    <section class="photo-group" aria-label={group.label}>
+      {group.rows.map((row, rowIndex) => (
+        <div class:list={['photo-row', row.format, { three: row.photos.length === 3, single: row.photos.length === 1 }]}>
+          {row.photos.map((photo, photoIndex) => (
+            <figure>
+              <Photo src={photo.src} alt={photo.alt} priority={groupIndex === 0 && rowIndex === 0 && photoIndex === 0} sizes={row.photos.length === 1 ? '(min-width: 1480px) 1400px, 100vw' : row.photos.length === 3 ? '(min-width: 1480px) 450px, (min-width: 640px) 31vw, 100vw' : '(min-width: 1480px) 688px, (min-width: 640px) 47vw, 100vw'} />
+            </figure>
+          ))}
+        </div>
+      ))}
+    </section>
+  ))}
+</div>
+<style>
+  .kintsugi-gallery { width: calc(100% - 2 * var(--gutter)); max-width: 1400px; margin-inline: auto; --photo-gap: clamp(0.75rem, 1.8vw, 1.5rem); }
+  .photo-group { margin: 0 0 clamp(2.5rem, 5vw, 4.5rem); display: grid; gap: var(--photo-gap); }
+  .photo-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--photo-gap); }
+  .photo-row.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .photo-row.single { grid-template-columns: 1fr; }
+  .photo-row.single.landscape figure { aspect-ratio: 16 / 9; }
+  figure { min-width: 0; overflow: hidden; }
+  figure :global(picture) { width: 100%; height: 100%; }
+  figure :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .landscape figure { aspect-ratio: 4 / 3; }
+  .portrait figure { aspect-ratio: 3 / 4; }
+  @media (max-width: 40rem) {
+    .photo-row, .photo-row.three { grid-template-columns: 1fr; }
+  }
+</style>
