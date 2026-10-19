@@ -41,6 +41,7 @@ const schemas = notFound ? [] : [website(), ...(hasLodging ? [] : [lodging()]), 
     <link rel="alternate" type="application/rss+xml" title="Life at Aikkya" href="/journal/rss.xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="theme-color" content="#ffffff" />
+    <link rel="preload" href="/fonts/tc-jimmy-serif-pro-bold.otf" as="font" type="font/otf" crossorigin />
 
     <meta property="og:type" content={published ? 'article' : 'website'} />
     <meta property="og:locale" content="en_IN" />

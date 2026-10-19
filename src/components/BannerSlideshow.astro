@@ -29,11 +29,11 @@ const slides = [
       {slides.map((slide, i) => (
         <div class="slide" role="group" aria-roledescription="slide" aria-label={`${i + 1} of ${slides.length}`} aria-hidden={i !== 0 ? 'true' : 'false'}>
           {i === 0 ? (
-            <Picture src={slide.src} alt={slide.alt} width={2000} widths={[480, 960, 1400, 2000]} sizes="(min-width: 1480px) 1400px, 100vw" formats={['webp']} loading="eager" fetchpriority="high" />
+            <Picture src={slide.src} alt={slide.alt} width={2000} widths={[480, 800, 1400, 2000]} sizes="(min-width: 1480px) 1400px, 100vw" formats={['webp']} quality={70} loading="eager" fetchpriority="high" />
           ) : (
             /* Held back until the page has loaded, so the first photo gets the connection to itself. */
             <template data-later>
-              <Picture src={slide.src} alt={slide.alt} width={2000} widths={[480, 960, 1400, 2000]} sizes="(min-width: 1480px) 1400px, 100vw" formats={['webp']} loading="eager" fetchpriority="low" />
+              <Picture src={slide.src} alt={slide.alt} width={2000} widths={[480, 800, 1400, 2000]} sizes="(min-width: 1480px) 1400px, 100vw" formats={['webp']} quality={70} loading="eager" fetchpriority="low" />
             </template>
           )}
         </div>
