@@ -1,0 +1,65 @@
+---
+import Photo from './Photo.astro';
+import SuiteGallery from './SuiteGallery.astro';
+import { aframeGroups } from '../data/aframe-gallery';
+const opening = [aframeGroups[0].rows[0].photos[0], ...aframeGroups[1].rows.map(row => row.photos[0])];
+const passages = [
+  { title: 'The loft at sunset', paragraphs: [
+    'Independent, compact A frame with a loft bed on the upper level and living space on ground level.',
+    'The sunset and valley views from the loft, and stars twinkling through the sky lights at night are bound to put you in ‘the right frame of mind’..',
+  ] },
+  { title: 'Under a canopy of trees', paragraphs: [
+    'This unit also features private outdoor seating space under a canopy of trees.',
+    'Stone paths, timber walls and a place to sit outside.',
+  ] },
+  { title: 'A tiny home', paragraphs: [
+    'This is a tiny home. Its small.',
+    '180 Sqft- ground level and 56 sqft loft which just fits the mattress.',
+    'Stairs to climb to the bed with a great view.',
+    'The roof rises between the trees.',
+  ] },
+];
+---
+<div class="aframe-editorial">
+  {opening.slice(0, 2).map((photo, i) => (
+    <section class:list={['spread', { reverse: i === 1, portrait: i === 0 }]} aria-label={passages[i].title}>
+      <figure><Photo src={photo.src} alt={photo.alt} priority={i === 0} quality={i === 0 ? 70 : 80} sizes="(min-width: 1480px) 760px, (min-width: 760px) 55vw, 100vw" /></figure>
+      <div class="story">
+        <h2>{passages[i].title}</h2>
+        {passages[i].paragraphs.map(paragraph => <p>{paragraph}</p>)}
+      </div>
+    </section>
+  ))}
+  <figure class="full-photo"><Photo src={opening[2].src} alt={opening[2].alt} sizes="(min-width: 1480px) 1400px, 100vw" /></figure>
+</div>
+<SuiteGallery groups={[{ ...aframeGroups[2], rows: [aframeGroups[2].rows[0]] }]} priorityFirst={false} />
+<section class="tiny-story" aria-label={passages[2].title}>
+  <h2>{passages[2].title}</h2>
+  <div>{passages[2].paragraphs.map(paragraph => <p>{paragraph}</p>)}</div>
+</section>
+<SuiteGallery groups={[{ ...aframeGroups[2], rows: aframeGroups[2].rows.slice(1) }, ...aframeGroups.slice(3)]} priorityFirst={false} />
+<style>
+  .aframe-editorial { width: calc(100% - 2 * var(--gutter)); max-width: 1400px; margin-inline: auto; }
+  .full-photo { margin-bottom: clamp(2.5rem, 5vw, 4.5rem); }
+  .tiny-story { width: calc(100% - 2 * var(--gutter)); max-width: 1400px; margin: 0 auto clamp(2.5rem, 5vw, 4.5rem); display: grid; grid-template-columns: 1fr 1.5fr; gap: clamp(2rem, 6vw, 6rem); align-items: start; }
+  .tiny-story p { max-width: none; }
+  .spread { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); align-items: center; gap: clamp(2rem, 6vw, 6rem); margin: 0 0 clamp(3.5rem, 8vw, 8rem); }
+  .spread.reverse { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); }
+  .reverse figure { grid-column: 2; grid-row: 1; }
+  .reverse .story { grid-column: 1; grid-row: 1; }
+  figure { min-width: 0; }
+  figure :global(img) { width: 100%; height: auto; }
+  .portrait figure { max-width: 590px; width: 100%; justify-self: center; }
+  .story { padding-block: 1rem; }
+  h2 { font-size: clamp(1.65rem, 2.8vw, 2.5rem); margin-bottom: 1.2rem; }
+  p { max-width: 36ch; }
+  p:last-child { margin-bottom: 0; }
+  @media (max-width: 47.5rem) {
+    .tiny-story { grid-template-columns: 1fr; gap: 0; }
+    .spread, .spread.reverse { grid-template-columns: 1fr; gap: 1.5rem; }
+    .reverse figure, .reverse .story { grid-column: auto; grid-row: auto; }
+    .portrait figure { max-width: 100%; }
+    .story { padding-block: 0; }
+    p { max-width: none; }
+  }
+</style>

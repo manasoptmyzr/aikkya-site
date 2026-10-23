@@ -2,127 +2,114 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Photo from '../components/Photo.astro';
-import Seam from '../components/Seam.astro';
-import { whatsappLink } from '../site';
 import { lodging } from '../schema';
-import { formatDate, excerpt, journalPosts, postUrl, inOrder } from '../util';
 import BannerSlideshow from '../components/BannerSlideshow.astro';
-import Press from '../components/Press.astro';
-import sunset from '../assets/photos/sunset-roofs.jpg';
-import bottle from '../assets/photos/kintsugi-bath-mirror.jpg';
+import map from '../assets/photos/homepage/hillside-map.jpg';
+import kintsugi from '../assets/photos/kintsugi-thumbnail.jpg';
+import wabiSabi from '../assets/photos/wabi-sabi-thumbnail.jpg';
+import aframe from '../assets/photos/a-frame-thumbnail.jpg';
+import loft from '../assets/photos/aframe-gallery/aframe-sunset-enhanced.jpg';
+import living from '../assets/photos/aframe-gallery/aframe-4806-enhanced.jpg';
+import lounge from '../assets/photos/aikkya-lounge-cover.jpg';
+import harvest from '../assets/photos/homepage/fruit-harvest.jpg';
+import food from '../assets/photos/homepage/home-meal.jpg';
+import bread from '../assets/photos/homepage/bread.jpg';
+import coffee from '../assets/photos/homepage/coffee-view.jpg';
+import beans from '../assets/photos/homepage/coffee-beans.jpg';
+import sunset from '../assets/photos/homepage/sunset.jpg';
+import range from '../assets/photos/homepage/himalayan-range.jpg';
+import peak from '../assets/photos/homepage/himalayan-peak.jpg';
+import cows from '../assets/photos/homepage/cows.jpg';
+import friend from '../assets/photos/homepage/dogs-and-friend.jpg';
+import dogs from '../assets/photos/homepage/dogs.jpg';
 const rooms = (await getCollection('rooms')).sort((a, b) => a.data.order - b.data.order);
-const posts = (await journalPosts()).slice(0, 3);
-const words = (await inOrder('kindWords')).filter((w) => w.data.featured);
+const pairSizes = '(min-width: 1480px) 688px, (min-width: 640px) 47vw, 100vw';
 ---
 <Base schema={lodging(rooms.map((r) => r.data))}>
   <BannerSlideshow />
-
-  <section class="intro">
+  <div class="home-story">
     <h1 class="visually-hidden">Aikkya</h1>
-    <p>Spread over 7.5 acres of forest and fruit orchard, Aikkya is the only home on this hillside.</p>
-    <p>You can choose to stay in our almost 80-year-old Kumaoni stone cottages, lovingly and at times painstakingly restored and renovated to preserve their original character. Or settle into our A-frame cottage, tucked between a persimmon tree and a pear tree. Built around the idea of a tiny home, it makes thoughtful use of the little space between the two. Each has its own quiet charm.</p>
-    <p>At the heart of Aikkya is a spacious dining area and lounge, with a home kitchen serving home-cooked meals and snacks. We try to grow as much of our food organically as we can and source much of the rest locally. Our bread is baked in-house or comes from local bakers. We source single-origin coffee from estates in Coorg and elsewhere, and grind it fresh here. You can <a href="/spaces/#aikkya-menu"><strong><em>Pre-Book a Meal</em></strong></a> with us if you are in the area.</p>
-    <p>We face west, and the sunsets often leave us lost for words. The Greater Himalayan peaks aren’t visible from Aikkya itself, but a 15-minute walk uphill or a three-minute drive takes you to the other side of the mountain. On a clear day, the views stretch from Kedarnath to Panchachuli and into Nepal.</p>
-    <p>This is a farm. An orchard. A forest. Cows, dogs and insects all call it home. We ask that you choose to stay with us only if you’re comfortable sharing the space with them. While you’re here, do say hello to the resident cows and our dogs, Julie, Motu and, when they’re around, Shifu and Boltu.</p>
-    <h2>A few things to know before you choose to stay with us :</h2>
-    <p>There is no room service, and all meals and snacks are served and eaten in the dining area or outside. We do not serve food in the rooms.</p>
-    <p>We don’t have full power backup, but an inverter keeps the essentials running, including the Wi-Fi. Power cuts, when they happen, usually last less than an hour, though a fault in the line can sometimes mean a longer wait. We’ll do our best to keep you comfortable and ask for your understanding when life in the hills takes an unpredictable turn.</p>
-  </section>
-
-  <section class="text news">
-    <h2>In the news</h2>
-    <Press />
-  </section>
-
-  <Seam />
-
-
-
-  <section class="text">
-    <p>Most of what's here is old. Stone walls, wooden doors and beams, and floors painted to look broken and mended. We would rather mend a thing than replace it.</p>
-  </section>
-
-  <div class="wide pair">
-    <figure><Photo src={sunset} alt="Sunset over the slate roof of a stone house, with the hills behind" sizes="(min-width: 60rem) 36rem, 100vw" /></figure>
-    <figure><Photo src={bottle} alt="A blue glass bottle in a niche in a whitewashed wall, next to a pebble-shaped mirror" sizes="(min-width: 60rem) 36rem, 100vw" /></figure>
+    <figure class="estate-map">
+      <figcaption>Spread over 7.5 acres of forest and fruit orchard,<br />Aikkya is the only home on this hillside.</figcaption>
+      <Photo src={map} alt="Aikkya hillside map showing Wabi Sabi Cottage, A-frame of Mind, Kintsugi Cottage, Kitchen and Lounge, Turiya and parking" sizes="(min-width: 1480px) 1400px, 100vw" />
+    </figure>
+    <section class="chapter" aria-label="Our stone cottages">
+      <p>You can choose to stay in our almost 80-year-old Kumaoni stone cottages, lovingly and at times painstakingly restored and renovated to preserve their original character.</p>
+      <div class="photo-pair">
+        <figure><Photo src={kintsugi} alt="Kintsugi cottage and its slate-roofed porch at dusk beneath leafy branches" sizes={pairSizes} /></figure>
+        <figure><Photo src={wabiSabi} alt="Wabi Sabi stone cottage with warm windows against the evening forest" sizes={pairSizes} /></figure>
+      </div>
+    </section>
+    <section class="chapter" aria-label="Our A-frame cottage">
+      <p>Or settle into our A-frame cottage, tucked between a persimmon tree and a pear tree. Built around the idea of a tiny home, it makes thoughtful use of the little space between the two. Each has its own quiet charm.</p>
+      <div class="mosaic">
+        <figure class="tall"><Photo src={aframe} alt="The A-frame cottage among trees beside its garden steps at sunset" sizes={pairSizes} /></figure>
+        <figure><Photo src={loft} alt="Sunset over the valley through the A-frame loft window, seen from bed" sizes={pairSizes} /></figure>
+        <figure><Photo src={living} alt="The A-frame living room with its sofa and stairs to the loft" sizes={pairSizes} /></figure>
+      </div>
+    </section>
+    <section class="chapter" aria-label="Our home kitchen">
+      <p>At the heart of Aikkya is a spacious dining area and lounge, with a home kitchen serving home-cooked meals and snacks. We try to grow as much of our food organically as we can and source much of the rest locally.</p>
+      <div class="mosaic">
+        <figure class="tall"><Photo src={lounge} alt="The Aikkya lounge and dining room glowing through the windows at dusk" sizes={pairSizes} /></figure>
+        <figure class="harvest"><Photo src={harvest} alt="A bowl of harvested fruit held in the orchard" sizes={pairSizes} /></figure>
+        <figure><Photo src={food} alt="A home-cooked meal with rice served in a bowl" sizes={pairSizes} /></figure>
+      </div>
+      <p class="caption">Our bread is baked in-house or comes from local bakers.</p>
+      <div class="mosaic">
+        <figure class="tall"><Photo src={bread} alt="Fresh bread held on a wooden board in the Aikkya kitchen" sizes={pairSizes} /></figure>
+        <figure class="coffee-view"><Photo src={coffee} alt="A glass of coffee with the hills and sunset beyond" sizes={pairSizes} /></figure>
+        <figure><Photo src={beans} alt="Coffee beans and a coffee pot on a wooden surface" sizes={pairSizes} /></figure>
+      </div>
+      <p class="caption">We source single-origin coffee from estates in Coorg and elsewhere, and grind it fresh here.</p>
+      <p class="meal-link">You can <a href="/spaces/#aikkya-menu"><strong><em>Pre-Book a Meal</em></strong></a> with us if you are in the area.</p>
+    </section>
+    <section class="chapter" aria-label="Sunsets and Himalayan views">
+      <p>We face west, and the sunsets often leave us lost for words. The Greater Himalayan peaks aren’t visible from Aikkya itself, but a 15-minute walk uphill or a three-minute drive takes you to the other side of the mountain. On a clear day, the views stretch from Kedarnath to Panchachuli and into Nepal.</p>
+      <div class="mosaic">
+        <figure class="tall"><Photo src={sunset} alt="Orange sunset clouds over the dark ridges around Aikkya" sizes={pairSizes} /></figure>
+        <figure><Photo src={range} alt="The snow-covered Himalayan range beyond blue foothills on a clear day" sizes={pairSizes} /></figure>
+        <figure><Photo src={peak} alt="A snow-covered Himalayan peak beneath a bright blue sky" sizes={pairSizes} /></figure>
+      </div>
+    </section>
+    <section class="chapter" aria-label="Life on the farm">
+      <p>This is a farm. An orchard. A forest. Cows, dogs and insects all call it home. We ask that you choose to stay with us only if you’re comfortable sharing the space with them. While you’re here, do say hello to the resident cows and our dogs, Julie, Motu and, when they’re around, Shifu and Boltu.</p>
+      <div class="mosaic">
+        <figure class="tall"><Photo src={cows} alt="Greeting the resident cows beside their stone shelter" sizes={pairSizes} /></figure>
+        <figure><Photo src={friend} alt="A quiet moment sitting with the dogs" sizes={pairSizes} /></figure>
+        <figure><Photo src={dogs} alt="Two dogs resting together outside in the sunshine" sizes={pairSizes} /></figure>
+      </div>
+    </section>
+    <section class="stay-notes" aria-labelledby="stay-notes-heading">
+      <h2 id="stay-notes-heading">A few things to know before you choose to stay with us :</h2>
+      <p>There is no room service, and all meals and snacks are served and eaten in the dining area or outside. We do not serve food in the rooms.</p>
+      <p>We don’t have full power backup, but an inverter keeps the essentials running, including the Wi-Fi. Power cuts, when they happen, usually last less than an hour, though a fault in the line can sometimes mean a longer wait. We’ll do our best to keep you comfortable and ask for your understanding when life in the hills takes an unpredictable turn.</p>
+    </section>
   </div>
-
-  <section class="text journal">
-    <h2><a href="/journal/">Life at Aikkya</a></h2>
-    <ul class="posts">
-      {posts.map((p) => (
-        <li>
-          <a href={postUrl(p.id)}>{p.data.title}</a>
-          <span class="quiet small"> · {formatDate(p.data.date)}</span>
-          <p class="quiet">{excerpt(p.body)}</p>
-        </li>
-      ))}
-    </ul>
-  </section>
-
-  <Seam />
-
-  <section class="text words">
-    <h2><a href="/kind-words/">Kind words</a></h2>
-    {words.map((w) => (
-      <blockquote>
-        <p>{w.data.words}</p>
-        <footer class="quiet small">{w.data.name}, on {w.data.where}</footer>
-      </blockquote>
-    ))}
-  </section>
-
-  <section class="text hello">
-    <h2>Say hello</h2>
-    <p>There's no booking button. We'd like to know a little about you first, and you about us. Write to us on WhatsApp and tell us who you are, roughly when you'd like to come, and what brings you here.</p>
-    <p><a class="say" href={whatsappLink()}>Write to us on WhatsApp</a></p>
-  </section>
 </Base>
-
 <style>
-  .intro {
-    width: calc(100% - 2 * var(--gutter));
-    max-width: 1400px;
-    margin-inline: auto;
-    margin-top: clamp(2rem, 4vw, 3rem);
-    font-family: 'TC Jimmy Serif Pro', var(--serif);
-    font-weight: 700;
-    font-size: clamp(1.125rem, 1rem + 0.35vw, 1.375rem);
-    line-height: 1.6;
-    word-spacing: -0.025em;
-    color: var(--coffee);
-    text-align: left;
+  .home-story { width: calc(100% - 2 * var(--gutter)); max-width: 1400px; margin: clamp(1rem, 3vw, 2.5rem) auto 0; color: var(--coffee); }
+  .estate-map { position: relative; }
+  .estate-map :global(img) { width: 100%; height: auto; }
+  .estate-map figcaption { margin: 0 0 clamp(1rem, 2.5vw, 2rem); color: var(--coffee); font-size: clamp(1rem, 2.5vw, 2rem); text-align: center; font-style: normal; }
+  .chapter { margin: clamp(1.5rem, 3vw, 3rem) 0; }
+  .chapter > p { margin-bottom: 1.1rem; }
+  .photo-pair, .mosaic { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(0.65rem, 1.8vw, 1.5rem); }
+  .photo-pair figure { aspect-ratio: 3 / 4; }
+  .mosaic { grid-template-rows: repeat(2, minmax(0, 1fr)); aspect-ratio: 1.44; }
+  .mosaic .tall { grid-row: 1 / 3; }
+  .photo-pair figure, .mosaic figure { min-width: 0; min-height: 0; overflow: hidden; }
+  .photo-pair :global(picture), .mosaic :global(picture) { display: block; height: 100%; }
+  .photo-pair :global(img), .mosaic :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .coffee-view :global(img) { object-position: center bottom; }
+  .harvest :global(img) { object-position: center 25%; }
+  .caption { margin: 1.15rem 0 !important; text-align: center; }
+  .meal-link { text-align: center; margin-top: 2rem; }
+  .stay-notes { margin: clamp(2rem, 4vw, 4rem) 0 0; padding: clamp(1.5rem, 4vw, 3.5rem); background: #f4ecdf; }
+  .stay-notes h2 { font-size: 1.25em; line-height: 1.4; text-align: center; margin-bottom: 1.5em; }
+  .stay-notes p:last-child { margin-bottom: 0; }
+  @media (max-width: 40rem) {
+    .estate-map figcaption { font-size: 1rem; }
+    .chapter > p { text-align: left; }
   }
-  .intro p {
-    margin-bottom: 1.05em;
-    text-align: justify;
-    text-align-last: left;
-    text-justify: inter-word;
-  }
-  /* Short phone lines stay naturally spaced rather than stretching words. */
-  @media (max-width: 40rem) { .intro p { text-align: left; } }
-  .intro h2 {
-    font-family: inherit;
-    font-weight: 700;
-    font-size: 1.15em;
-    line-height: 1.5;
-    margin: 1.75em 0 0.65em;
-  }
-
-  h2 a { color: inherit; text-decoration: none; }
-  h2 a:hover { color: var(--rug); }
-
-  .pair { display: grid; gap: 1.5rem; grid-template-columns: 1fr 1fr; align-items: start; }
-  .pair figure:last-child { margin-top: clamp(2rem, 8vw, 6rem); }
-  .pair :global(img) { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
-
-  .posts { list-style: none; padding: 0; margin: 0; }
-  .posts li { margin-bottom: 1.5rem; }
-  .posts li > a { font-size: 1.25em; }
-  .posts p { margin: 0.25rem 0 0; }
-
-  blockquote { margin: 0 0 2rem; padding: 0; }
-  blockquote p { font-style: italic; font-size: 1.1em; margin-bottom: 0.3rem; }
-  blockquote p::before { content: '\201C'; }
-  blockquote p::after { content: '\201D'; }
 </style>

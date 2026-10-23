@@ -37,7 +37,7 @@
   --dusk: #2e2c42;
   --dusk-text: #e8e2d4;
 
-  --serif: 'Newsreader Variable', 'Tiro Devanagari Hindi', 'Tiro Bangla', Georgia, serif;
+  --serif: 'TC Jimmy Serif Pro', 'Tiro Devanagari Hindi', 'Tiro Bangla', Georgia, serif;
   --indic: 'Tiro Devanagari Hindi', 'Tiro Bangla', serif;
 
   --text: 36rem;
@@ -59,6 +59,7 @@ body {
   isolation: isolate;
   color: var(--ink);
   font-family: var(--serif);
+  font-weight: 700;
   font-optical-sizing: auto;
   font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
   line-height: 1.6;
@@ -66,19 +67,21 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+button, input, select, textarea { font: inherit; color: var(--coffee); }
+
 img, picture, svg { display: block; max-width: 100%; height: auto; }
 
 a { color: var(--glass); text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
 a:hover { color: var(--rug); }
 
 h1, h2, h3 {
-  font-weight: 400;
+  font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.01em;
   margin: 0 0 0.6em;
   text-wrap: balance;
 }
-h1 { font-size: clamp(2.4rem, 1.6rem + 3.4vw, 4.4rem); font-weight: 350; }
+h1 { font-size: clamp(2.4rem, 1.6rem + 3.4vw, 4.4rem); font-weight: 700; }
 h2 { font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.3rem); }
 h3 { font-size: 1.3rem; }
 
@@ -90,7 +93,7 @@ p { margin: 0 0 1em; text-wrap: pretty; }
 .quiet { color: var(--ink-soft); }
 .small { font-size: 0.875em; }
 .italic { font-style: italic; }
-.indic { font-family: var(--indic); font-style: normal; }
+.indic { font-family: var(--serif); font-style: normal; }
 
 section { margin-block: clamp(3.5rem, 8vw, 7rem); }
 
@@ -135,7 +138,7 @@ section { margin-block: clamp(3.5rem, 8vw, 7rem); }
 .top nav li { flex: 0 0 auto; }
 .top nav a { white-space: nowrap; color: var(--ink); text-decoration: none; }
 .top nav a:hover, .top nav a[aria-current='page'] { color: var(--rug); }
-.top nav a[aria-current='page'] { text-decoration: underline; text-decoration-color: var(--gold); }
+.top nav a[aria-current='page'] { text-decoration: underline; text-decoration-color: var(--coffee); }
 
 
 
@@ -208,7 +211,7 @@ figcaption {
   text-decoration: none;
   font-size: 1.05rem;
 }
-.say:hover { background: var(--ink); color: var(--lime); }
+.say:hover { background: #faf8f5; color: var(--coffee); }
 
 :focus-visible { outline: 2px solid var(--glass); outline-offset: 3px; }
 

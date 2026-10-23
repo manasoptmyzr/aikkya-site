@@ -4,6 +4,7 @@ import Base from '../../layouts/Base.astro';
 import Photo from '../../components/Photo.astro';
 import KintsugiGallery from '../../components/KintsugiGallery.astro';
 import SuiteFolders from '../../components/SuiteFolders.astro';
+import AframeEditorial from '../../components/AframeEditorial.astro';
 
 export async function getStaticPaths() {
   return (await getCollection('rooms')).map((room) => ({
@@ -23,7 +24,9 @@ const name = names[room.id] ?? room.data.name;
     <KintsugiGallery photos={room.data.photos} />
   ) : room.id === 'wabi-sabi' ? (
     <SuiteFolders />
-  ) : (
+  ) : room.id === 'a-frame-of-mind' ? (
+    <AframeEditorial />
+  ) : room.data.photos.length > 0 ? (
   <section class="wide room-gallery" aria-label={`${name} room pictures`}>
     {room.data.photos.map((photo, i) => (
       <figure class:list={{ first: i === 0 }}>
@@ -31,7 +34,7 @@ const name = names[room.id] ?? room.data.name;
       </figure>
     ))}
   </section>
-  )}
+  ) : null}
 
 </Base>
 <style>
