@@ -8,10 +8,11 @@ interface Props {
   sizes?: string;
   priority?: boolean;
   quality?: number;
+  fetchPriority?: 'high' | 'low' | 'auto';
   class?: string;
 }
 
-const { src, alt, sizes = '(min-width: 74rem) 74rem, 100vw', priority = false, quality = 80, class: className } = Astro.props;
+const { src, alt, sizes = '(min-width: 74rem) 74rem, 100vw', priority = false, quality = 80, fetchPriority, class: className } = Astro.props;
 const widths = [...new Set([480, 800, 1200, 1600, 2000].filter((w) => w < src.width).concat(Math.min(src.width, 2400)))];
 ---
 <Picture
@@ -22,6 +23,6 @@ const widths = [...new Set([480, 800, 1200, 1600, 2000].filter((w) => w < src.wi
   widths={widths}
   sizes={sizes}
   loading={priority ? 'eager' : 'lazy'}
-  fetchpriority={priority ? 'high' : 'auto'}
+  fetchpriority={fetchPriority ?? (priority ? 'high' : 'auto')}
   class={className}
 />
