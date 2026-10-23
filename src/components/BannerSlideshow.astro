@@ -91,10 +91,15 @@ const slides = [
           dot.title = action;
         });
       };
+      const loadSlide = (i: number) => {
+        const template = slides[i]?.querySelector<HTMLTemplateElement>('template[data-later]');
+        if (template) template.replaceWith(template.content.cloneNode(true));
+      };
       const startTimer = (delay = 3000) => {
         clearTimeout(this.timer);
         this.timer = undefined;
         if (playing && !document.hidden) {
+          loadSlide((index + 1) % slides.length);
           this.timer = setTimeout(() => {
             const fadeDuration = reducedMotion.matches ? 0 : 900;
             this.dataset.fading = 'true';
@@ -109,7 +114,7 @@ const slides = [
         }
       };
       dots.forEach((dot, i) => dot.addEventListener('click', () => {
-        this.querySelectorAll<HTMLTemplateElement>('template[data-later]').forEach((t) => t.replaceWith(t.content.cloneNode(true)));
+        loadSlide(i);
         clearTimeout(this.fadeTimer);
         this.dataset.fading = 'false';
         playing = i === index ? !playing : false;
@@ -121,9 +126,8 @@ const slides = [
       reducedMotion.addEventListener('change', () => {
         if (reducedMotion.matches) { clearTimeout(this.fadeTimer); this.dataset.fading = 'false'; playing = false; update(); startTimer(); }
       }, { signal });
-      // Bring in the other photos once the page has finished loading, then start the slideshow.
+      // Fetch only the next slide so offscreen banners do not compete with the page.
       const loadRest = () => {
-        this.querySelectorAll<HTMLTemplateElement>('template[data-later]').forEach((t) => t.replaceWith(t.content.cloneNode(true)));
         startTimer();
       };
       this.querySelector<HTMLElement>('.controls')!.hidden = false;
