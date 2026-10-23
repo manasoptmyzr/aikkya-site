@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 import Photo from '../components/Photo.astro';
 import { lodging } from '../schema';
 import BannerSlideshow from '../components/BannerSlideshow.astro';
-import map from '../assets/photos/homepage/hillside-map.jpg';
+import map from '../assets/photos/homepage/aikkya-map-updated.jpg';
 import kintsugi from '../assets/photos/kintsugi-thumbnail.jpg';
 import wabiSabi from '../assets/photos/wabi-sabi-thumbnail.jpg';
 import aframe from '../assets/photos/a-frame-thumbnail.jpg';
@@ -31,7 +31,7 @@ const pairSizes = '(min-width: 1480px) 688px, (min-width: 640px) 47vw, 100vw';
     <h1 class="visually-hidden">Aikkya</h1>
     <figure class="estate-map">
       <figcaption>Spread over 7.5 acres of forest and fruit orchard,<br />Aikkya is the only home on this hillside.</figcaption>
-      <Photo src={map} alt="Aikkya hillside map showing Wabi Sabi Cottage, A-frame of Mind, Kintsugi Cottage, Kitchen and Lounge, Turiya and parking" sizes="(min-width: 1480px) 1400px, 100vw" />
+      <Photo src={map} quality={70} alt="Aikkya hillside map showing Wabi Sabi Cottage, A-frame of Mind, Kintsugi Cottage, Kitchen and Lounge, Turiya and parking" sizes="(min-width: 1480px) 1400px, 100vw" />
     </figure>
     <section class="chapter" aria-label="Our stone cottages">
       <p>You can choose to stay in our almost 80-year-old Kumaoni stone cottages, lovingly and at times painstakingly restored and renovated to preserve their original character.</p>
