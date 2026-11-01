@@ -3,7 +3,9 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Photo from '../components/Photo.astro';
 import { lodging } from '../schema';
+import { whatsappLink } from '../site';
 import BannerSlideshow from '../components/BannerSlideshow.astro';
+import GuestReviews from '../components/GuestReviews.astro';
 import map from '../assets/photos/homepage/aikkya-map-updated.jpg';
 import kintsugi from '../assets/photos/kintsugi-thumbnail.jpg';
 import wabiSabi from '../assets/photos/wabi-sabi-thumbnail.jpg';
@@ -23,6 +25,12 @@ import cows from '../assets/photos/homepage/cows.jpg';
 import friend from '../assets/photos/homepage/dogs-and-friend.jpg';
 import dogs from '../assets/photos/homepage/dogs.jpg';
 const rooms = (await getCollection('rooms')).sort((a, b) => a.data.order - b.data.order);
+const connectMessage = `Hello Shivani,
+Checking availability for : (Number of guests)
+Pets :
+Check-in Date :
+Check-out Date :
+(Your Name)`;
 const pairSizes = '(min-width: 1480px) 688px, (min-width: 640px) 47vw, 100vw';
 ---
 <Base schema={lodging(rooms.map((r) => r.data))}>
@@ -82,9 +90,42 @@ const pairSizes = '(min-width: 1480px) 688px, (min-width: 640px) 47vw, 100vw';
     </section>
     <section class="stay-notes" aria-labelledby="stay-notes-heading">
       <h2 id="stay-notes-heading">A few things to know before you choose to stay with us :</h2>
-      <p>There is no room service, and all meals and snacks are served and eaten in the dining area or outside. We do not serve food in the rooms.</p>
-      <p>We don’t have full power backup, but an inverter keeps the essentials running, including the Wi-Fi. Power cuts, when they happen, usually last less than an hour, though a fault in the line can sometimes mean a longer wait. We’ll do our best to keep you comfortable and ask for your understanding when life in the hills takes an unpredictable turn.</p>
+      <div class="stay-note">
+        <h3><strong>No Room Service</strong></h3>
+        <p>All meals and snacks are served and eaten in the dining area or outside. We do not serve food in the rooms.</p>
+      </div>
+      <div class="stay-note">
+        <h3><strong>Electricity</strong></h3>
+        <p>We don’t have full power backup, but an inverter keeps the essentials running, including the Wi-Fi. Power cuts, when they happen, usually last less than an hour, though a fault in the line can sometimes mean a longer wait. We’ll do our best to keep you comfortable and ask for your understanding when life in the hills takes an unpredictable turn.</p>
+      </div>
+      <div class="stay-note">
+        <h3><strong>Housekeeping, Towels &amp; Linen</strong></h3>
+        <p>Housekeeping is available on request. Towels and linen are not changed daily during short stays. For a week-long stay, they are changed every third day; for longer stays, once a week, much like at home.</p>
+      </div>
+      <div class="stay-note">
+        <h3><strong>Water &amp; Thoughtful Use</strong></h3>
+        <p>Water is scarce in the mountains. Our water comes mainly from a mountain spring and the local supply. Here in the hills, we try to use it thoughtfully and keep our carbon footprint small. If there’s a spill or a mishap, we’ll of course take care of it so that your stay is comfortable.</p>
+      </div>
+      <div class="stay-note">
+        <h3><strong>Our Home</strong></h3>
+        <p>Aikkya is, first and foremost, our home. A place we have built over the years, learning to live a little differently, surrounded by forest, fruit trees, animals, and everything else that comes with life in the mountains. Somewhere along the way, we decided to share a part of this life with others.</p>
+      </div>
+      <div class="stay-note">
+        <h3><strong>Life in the Mountains</strong></h3>
+        <p>Things work a little differently here. We are a small team, far from the usual conveniences of city life. Days follow their own rhythm, and nature has a fair say in how things unfold. There is comfort, but not the kind you would expect from a hotel or resort. We like to keep things simple, personal, and as close to the way we actually live as possible.</p>
+      </div>
+      <div class="stay-note">
+        <h3><strong>A Handful of Guests</strong></h3>
+        <p>We have consciously chosen to welcome only a handful of guests at a time. It helps us be gentler on the land, gives us time to get to know the people who visit, and allows Aikkya to remain the home it was always meant to be.</p>
+        <p>We hope to share it with people who appreciate the little things, respect the surroundings, and are happy to experience life here as it is.</p>
+      </div>
+      <div class="stay-note">
+        <h3><strong>A Conversation Before Your Stay</strong></h3>
+        <p>If you’re considering a stay at Aikkya, we’d love to hear from you before you book. A little conversation gives us a chance to share more about life here, understand what you’re looking forward to, and answer any questions you may have. That way, you can get a better sense of the place and decide if it’s somewhere you’d enjoy spending a few days.</p>
+      </div>
+      <div class="connect-action"><a class="connect-tab" href={whatsappLink(connectMessage)} target="_blank" rel="noopener noreferrer">Let’s connect</a></div>
     </section>
+    <GuestReviews />
   </div>
 </Base>
 <style>
@@ -102,12 +143,19 @@ const pairSizes = '(min-width: 1480px) 688px, (min-width: 640px) 47vw, 100vw';
   .photo-pair :global(picture), .mosaic :global(picture) { display: block; height: 100%; }
   .photo-pair :global(img), .mosaic :global(img) { width: 100%; height: 100%; object-fit: cover; }
   .coffee-view :global(img) { object-position: center bottom; }
-  .harvest :global(img) { object-position: center 25%; }
+  .harvest :global(img) { object-position: center 25%; transform: scale(1.045); }
   .caption { margin: 1.15rem 0 !important; text-align: center; }
   .meal-link { text-align: center; margin-top: 2rem; }
-  .stay-notes { margin: clamp(2rem, 4vw, 4rem) 0 0; padding: clamp(1.5rem, 4vw, 3.5rem); background: #f4ecdf; }
+  .stay-notes { margin: clamp(2rem, 4vw, 4rem) 0 0; padding: clamp(1.5rem, 4vw, 3.5rem); background: #f4ecdf; border-radius: var(--photo-radius); }
   .stay-notes h2 { font-size: 1.25em; line-height: 1.4; text-align: center; margin-bottom: 1.5em; }
-  .stay-notes p:last-child { margin-bottom: 0; }
+  .stay-note + .stay-note { margin-top: clamp(1.75rem, 3vw, 2.75rem); }
+  .stay-note h3 { font-size: 1.15em; font-weight: 700; line-height: 1.4; margin: 0 0 0.6em; }
+  .stay-note p { text-align: justify; text-align-last: left; text-justify: inter-word; }
+  .stay-note p:last-child { margin-bottom: 0; }
+  .connect-action { margin-top: clamp(2rem, 4vw, 3.5rem); text-align: center; }
+  .connect-tab { display: inline-block; max-width: 100%; padding: 0.35em 1.15em; background: #fff; color: var(--coffee); border: 3px solid #f4ecdf; outline: 4px solid #fff; border-radius: 0.65em; font-family: inherit; font-size: clamp(1.6rem, 3vw, 2.5rem); font-weight: 700; font-style: italic; line-height: 1.25; text-decoration: none; }
+  .connect-tab:hover { text-decoration: underline; text-underline-offset: 0.15em; }
+  .connect-tab:focus-visible { outline: 3px solid var(--coffee); outline-offset: 5px; }
   @media (max-width: 40rem) {
     .estate-map figcaption { font-size: 1rem; }
     .chapter > p { text-align: left; }

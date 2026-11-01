@@ -1,0 +1,148 @@
+---
+import reviews from '../data/guest-reviews.json';
+const recordedDate = (date: string, short = false) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: short ? 'short' : 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${date}T00:00:00Z`));
+---
+<section class="guest-reviews" aria-labelledby="guest-reviews-heading">
+  <h2 id="guest-reviews-heading">Thank you for staying with us</h2>
+  <p class="introduction">We’ve welcomed many guests who chose to spend a little time with us here at Aikkya. They’ve been kind enough to share their experiences, and we’re grateful for their words.</p>
+  <aikkya-reviews aria-label="Guest reviews" aria-roledescription="carousel">
+    <div class="review-track">
+      {reviews.map((review, i) => (
+        <div class="review-card" hidden={i >= 3} role="group" aria-roledescription="slide" aria-label={`${i + 1} of ${reviews.length}: ${review.name}`}>
+          <p class="review-source">{review.source}</p>
+          <blockquote><p>{review.words}</p></blockquote>
+          <div class="review-byline"><strong>{review.name}</strong><span>{review.date}{'dateAsOf' in review ? ` · recorded ${recordedDate(review.dateAsOf, true)}` : ''}</span></div>
+          <button class="read-review" type="button" data-review-open={`guest-review-${i}`} aria-label={`Read review by ${review.name}`}>Read review</button>
+        </div>
+      ))}
+    </div>
+    <div class="review-navigation" hidden>
+      <div class="review-actions">
+        <button type="button" data-previous aria-label="Previous guest reviews">←</button>
+        <button type="button" data-play>Pause reviews</button>
+        <button type="button" data-next aria-label="Next guest reviews">→</button>
+      </div>
+      <div class="review-dots" role="group" aria-label="Choose guest reviews"></div>
+      <p class="review-count" aria-live="polite"></p>
+    </div>
+    {reviews.map((review, i) => (
+      <dialog id={`guest-review-${i}`} aria-labelledby={`guest-review-title-${i}`}>
+        <div class="dialog-top"><h3 id={`guest-review-title-${i}`}>{review.name}</h3><button type="button" data-review-close aria-label="Close review">×</button></div>
+        <p class="dialog-source">{review.source} · {review.date}</p>
+        {'dateAsOf' in review && <p class="date-note">Date as displayed on Google on {recordedDate(review.dateAsOf)}.</p>}
+        <blockquote>{review.words.split('\n').filter(Boolean).map(paragraph => <p>{paragraph}</p>)}</blockquote>
+        <a href={review.url} target="_blank" rel="noopener noreferrer">Read {'excerpt' in review ? 'the full review' : 'reviews'} on {review.source}</a>
+      </dialog>
+    ))}
+  </aikkya-reviews>
+</section>
+<style>
+  .guest-reviews { margin: clamp(3.5rem, 7vw, 6rem) 0 0; color: var(--coffee); }
+  h2 { text-align: center; font-size: clamp(1.8rem, 3.3vw, 2.75rem); }
+  .introduction { max-width: 52rem; margin: 0 auto 2.25rem; text-align: center; }
+  aikkya-reviews { display: block; --cards: 3; }
+  .review-track { display: grid; grid-template-columns: repeat(var(--cards), minmax(0, 1fr)); gap: clamp(0.75rem, 2vw, 1.5rem); }
+  aikkya-reviews:not([data-enhanced]) .review-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; }
+  aikkya-reviews:not([data-enhanced]) .review-card { flex: 0 0 calc((100% - 3rem) / var(--cards)); scroll-snap-align: start; }
+  .review-card { border-radius: var(--photo-radius); aspect-ratio: 1; min-width: 0; padding: clamp(1.1rem, 2.5vw, 2rem); border: 1px solid #d7c6b2; display: flex; flex-direction: column; gap: 0.7rem; background: #fff; }
+  .review-card[hidden] { display: none; }
+  .review-source { margin: 0; font-size: 0.85rem; }
+  .review-card blockquote { margin: 0; flex: 1; min-height: 0; overflow: hidden; }
+  .review-card blockquote p { margin: 0; font-size: clamp(1rem, 1.3vw, 1.125rem); line-height: 1.5; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 7; overflow: hidden; }
+  .review-byline { display: grid; gap: 0.15rem; line-height: 1.3; }
+  .review-byline span { font-size: 0.8rem; }
+  .read-review { align-self: start; padding: 0.2rem 0; border: 0; background: transparent; color: inherit; font: inherit; font-size: 0.9rem; text-decoration: underline; text-underline-offset: 0.2em; cursor: pointer; }
+  .review-navigation { margin-top: 1.25rem; }
+  .review-navigation[hidden] { display: none; }
+  .review-actions { display: flex; justify-content: center; align-items: center; gap: 1.25rem; }
+  .review-actions button { min-width: 44px; min-height: 44px; border: 0; background: transparent; color: inherit; font: inherit; cursor: pointer; }
+  .review-actions [data-play] { font-size: 0.85rem; text-decoration: underline; text-underline-offset: 0.2em; }
+  .review-dots { display: flex; flex-wrap: wrap; justify-content: center; max-width: 100%; margin: 0.25rem auto 0; }
+  .review-dots :global(button) { width: 28px; height: 32px; padding: 10px; display: grid; place-items: center; border: 0; background: transparent; cursor: pointer; }
+  .review-dots :global(button::after) { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--coffee); opacity: 0.35; }
+  .review-dots :global(button[aria-pressed='true']::after) { opacity: 1; transform: scale(1.4); }
+  .review-count { margin: 0.35rem 0 0; text-align: center; font-size: 0.85rem; }
+  dialog { width: min(42rem, calc(100% - 2rem)); max-height: 85dvh; padding: clamp(1.25rem, 4vw, 2.5rem); color: var(--coffee); background: #fff; border: 1px solid #d7c6b2; overflow-y: auto; }
+  dialog::backdrop { background: rgb(35 27 20 / 50%); }
+  .dialog-top { display: flex; gap: 1rem; justify-content: space-between; align-items: start; }
+  .dialog-top h3 { margin: 0; font-size: 1.5rem; }
+  .dialog-top button { min-width: 44px; min-height: 44px; margin-top: -0.5rem; border: 0; background: transparent; color: inherit; font: inherit; font-size: 1.75rem; cursor: pointer; }
+  .dialog-source, .date-note { font-size: 0.9rem; }
+  dialog blockquote { margin: 1.5rem 0; }
+  @media (max-width: 63.99rem) { aikkya-reviews { --cards: 2; } }
+  @media (max-width: 39.99rem) { aikkya-reviews { --cards: 1; } .review-card { padding: 1.25rem; } .introduction { text-align: left; } .review-card blockquote p { font-size: 1rem; } }
+</style>
+<script>
+  class AikkyaReviews extends HTMLElement {
+    private cleanup?: () => void;
+    connectedCallback() {
+      if (this.cleanup) return;
+      const controller = new AbortController();
+      const { signal } = controller;
+      const cards = [...this.querySelectorAll<HTMLElement>('.review-card')];
+      const navigation = this.querySelector<HTMLElement>('.review-navigation')!;
+      const dots = this.querySelector<HTMLElement>('.review-dots')!;
+      const count = this.querySelector<HTMLElement>('.review-count')!;
+      const play = this.querySelector<HTMLButtonElement>('[data-play]')!;
+      const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+      let perPage = Number(getComputedStyle(this).getPropertyValue('--cards'));
+      let page = 0;
+      let paused = reduced.matches;
+      let visible = false;
+      let hovered = false;
+      let timer: ReturnType<typeof setTimeout> | undefined;
+      const pages = () => Math.ceil(cards.length / perPage);
+      const schedule = () => {
+        clearTimeout(timer);
+        if (!paused && visible && !hovered && !document.hidden && !this.contains(document.activeElement)) {
+          timer = setTimeout(() => { page = (page + 1) % pages(); update(); }, 18000);
+        }
+      };
+      const update = () => {
+        const start = page * perPage;
+        cards.forEach((card, i) => { card.hidden = i < start || i >= start + perPage; });
+        [...dots.querySelectorAll('button')].forEach((dot, i) => dot.setAttribute('aria-pressed', String(i === page)));
+        count.textContent = `${start + 1}–${Math.min(start + perPage, cards.length)} of ${cards.length} guest reviews`;
+        play.textContent = paused ? 'Play reviews' : 'Pause reviews';
+        schedule();
+      };
+      const makeDots = () => {
+        dots.replaceChildren();
+        for (let i = 0; i < pages(); i++) {
+          const dot = document.createElement('button');
+          dot.type = 'button';
+          dot.setAttribute('aria-label', `Show guest reviews ${i * perPage + 1} to ${Math.min((i + 1) * perPage, cards.length)}`);
+          dot.addEventListener('click', () => { page = i; paused = true; update(); }, { signal });
+          dots.append(dot);
+        }
+      };
+      this.querySelector('[data-previous]')!.addEventListener('click', () => { page = (page + pages() - 1) % pages(); paused = true; update(); }, { signal });
+      this.querySelector('[data-next]')!.addEventListener('click', () => { page = (page + 1) % pages(); paused = true; update(); }, { signal });
+      play.addEventListener('click', () => { paused = !paused; update(); }, { signal });
+      this.querySelectorAll<HTMLButtonElement>('[data-review-open]').forEach(button => {
+        button.addEventListener('click', () => { paused = true; update(); this.querySelector<HTMLDialogElement>(`#${button.dataset.reviewOpen}`)?.showModal(); }, { signal });
+      });
+      this.querySelectorAll<HTMLButtonElement>('[data-review-close]').forEach(button => button.addEventListener('click', () => button.closest('dialog')?.close(), { signal }));
+      this.addEventListener('mouseenter', () => { hovered = true; schedule(); }, { signal });
+      this.addEventListener('mouseleave', () => { hovered = false; schedule(); }, { signal });
+      this.addEventListener('focusin', schedule, { signal });
+      this.addEventListener('focusout', () => queueMicrotask(schedule), { signal });
+      document.addEventListener('visibilitychange', schedule, { signal });
+      reduced.addEventListener('change', () => { if (reduced.matches) paused = true; update(); }, { signal });
+      const resize = new ResizeObserver(() => {
+        const size = Number(getComputedStyle(this).getPropertyValue('--cards'));
+        if (size !== perPage) { const first = page * perPage; perPage = size; page = Math.floor(first / perPage); makeDots(); update(); }
+      });
+      const observer = new IntersectionObserver(entries => { visible = entries[0].isIntersecting; schedule(); });
+      observer.observe(this);
+      resize.observe(this);
+      this.dataset.enhanced = '';
+      navigation.hidden = false;
+      makeDots();
+      update();
+      this.cleanup = () => { clearTimeout(timer); controller.abort(); resize.disconnect(); observer.disconnect(); };
+    }
+    disconnectedCallback() { this.cleanup?.(); this.cleanup = undefined; }
+  }
+  if (!customElements.get('aikkya-reviews')) customElements.define('aikkya-reviews', AikkyaReviews);
+</script>
