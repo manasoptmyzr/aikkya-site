@@ -63,7 +63,7 @@ body {
   font-weight: 700;
   font-optical-sizing: auto;
   font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
-  line-height: 1.6;
+  line-height: 1.45;
   font-variant-numeric: oldstyle-nums proportional-nums;
   -webkit-font-smoothing: antialiased;
 }
@@ -86,7 +86,7 @@ h1 { font-size: clamp(2.4rem, 1.6rem + 3.4vw, 4.4rem); font-weight: 700; }
 h2 { font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.3rem); }
 h3 { font-size: 1.3rem; }
 
-p { margin: 0 0 1em; text-wrap: pretty; }
+p { margin: 0 0 0.75em; text-wrap: pretty; }
 
 .text { max-width: var(--text); margin-inline: auto; padding-inline: var(--gutter); }
 .wide { max-width: var(--wide); margin-inline: auto; padding-inline: var(--gutter); }
@@ -96,11 +96,11 @@ p { margin: 0 0 1em; text-wrap: pretty; }
 .italic { font-style: italic; }
 .indic { font-family: var(--serif); font-style: normal; }
 
-section { margin-block: clamp(3.5rem, 8vw, 7rem); }
+section { margin-block: clamp(2rem, 5vw, 4.5rem); }
 
 /* Header */
 .top {
-  --header-space: clamp(1.5rem, 3vw, 2rem);
+  --header-space: clamp(0.9rem, 2vw, 1.5rem);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -141,7 +141,15 @@ section { margin-block: clamp(3.5rem, 8vw, 7rem); }
 .top nav a:hover, .top nav a[aria-current='page'] { color: var(--rug); }
 .top nav a[aria-current='page'] { text-decoration: underline; text-decoration-color: var(--coffee); }
 
+@media (max-width: 48rem) {
+  .top { padding-inline: 0.5rem; }
+  .top nav { overflow: visible; }
+  .top nav ul { display: flex; flex-wrap: nowrap; min-width: 0; gap: 0; font-size: clamp(0.5rem, 2.7vw, 1rem); }
+  .top nav li { min-width: 0; }
+  .top nav a { display: flex; min-height: 44px; align-items: center; justify-content: center; white-space: nowrap; text-align: center; line-height: 1.25; }
+}
 
+@media (max-width: 40rem) { body { font-size: 1rem; } }
 
 .visually-hidden {
   position: absolute;
@@ -171,7 +179,7 @@ figcaption {
 .bleed img { width: 100%; }
 
 /* Page headings */
-.page-head { padding-top: clamp(2rem, 6vw, 4.5rem); }
+.page-head { padding-top: clamp(1rem, 3vw, 2rem); }
 .page-head h1 { margin-bottom: 0.4em; }
 
 /* Long-form text (journal posts, room descriptions) */
@@ -191,8 +199,8 @@ figcaption {
 .foot {
   background: transparent;
   color: var(--ink);
-  margin-top: clamp(4rem, 10vw, 8rem);
-  padding: clamp(2.5rem, 6vw, 4rem) 0 2.5rem;
+  margin-top: clamp(2rem, 5vw, 4rem);
+  padding: clamp(1.5rem, 4vw, 2.5rem) 0 1.5rem;
   font-size: 0.95rem;
 }
 .foot a { color: var(--ink); }

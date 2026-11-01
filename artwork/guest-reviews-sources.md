@@ -1,4 +1,4 @@
-# Homepage guest reviews
+# Guestbook reviews
 
 Imported on 1 November 2026 from the publicly visible Google Maps and Airbnb review panels.
 89 separate guest reviews: 46 from Airbnb and 43 from Google, selected for thoughtful detail. Guest text is copied without rewriting. Bhaskar’s review is an excerpt ending with an ellipsis; the original source remains linked.
@@ -14,4 +14,6 @@ Ten additional Google reviews were added on 1 November 2026: Amartya Sengupta, N
 
 On 2 November 2026, after the owner signed in to reveal the full Google review list, 29 additional reviews were added. All requested names are represented using the spellings displayed on Google, including Smriti Parikh, both Preeti Rajinder Johar and Preeti Mehta, and Tanushree Gupta. Gaurav Mittal, gaurav choudhary and Princey Mittal were already included and were not duplicated. Eight other detailed missing reviews were added: Dhwani Shah, Aditi Srivastava, jaskaran singh, Sameer Chaturvedi, Mikhil Mehra, Anuj Guglani, divya vyas and DEVANSHI POWANI. These 29 reviews are complete and copied word for word; their relative dates are recorded as of 2 November 2026. No account details, owner responses or reviewer profile photographs were imported.
 
-Owner exclusion (2 November 2026): do not add Shriom Sharma’s review. It is not included in the homepage review data.
+Owner exclusion (2 November 2026): do not add Shriom Sharma’s review. It is not included in the guestbook review data.
+
+The complete review carousel was moved from the homepage to Guestbook on 2 November 2026. Original source data in kind-words.yaml is retained.

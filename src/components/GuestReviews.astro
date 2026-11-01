@@ -39,7 +39,7 @@ const recordedDate = (date: string, short = false) => new Intl.DateTimeFormat('e
 <style>
   .guest-reviews { margin: clamp(3.5rem, 7vw, 6rem) 0 0; color: var(--coffee); }
   h2 { text-align: center; font-size: clamp(1.8rem, 3.3vw, 2.75rem); }
-  .introduction { max-width: 52rem; margin: 0 auto 2.25rem; text-align: center; }
+  .introduction { max-width: 52rem; margin: 0 auto 1.5rem; text-align: center; }
   aikkya-reviews { display: block; --cards: 3; }
   .review-track { display: grid; grid-template-columns: repeat(var(--cards), minmax(0, 1fr)); gap: clamp(0.75rem, 2vw, 1.5rem); }
   aikkya-reviews:not([data-enhanced]) .review-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; }
@@ -48,7 +48,7 @@ const recordedDate = (date: string, short = false) => new Intl.DateTimeFormat('e
   .review-card[hidden] { display: none; }
   .review-source { margin: 0; font-size: 0.85rem; }
   .review-card blockquote { margin: 0; flex: 1; min-height: 0; overflow: hidden; }
-  .review-card blockquote p { margin: 0; font-size: clamp(1rem, 1.3vw, 1.125rem); line-height: 1.5; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 7; overflow: hidden; }
+  .review-card blockquote p { margin: 0; font-size: clamp(1rem, 1.3vw, 1.125rem); line-height: 1.4; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 7; overflow: hidden; }
   .review-byline { display: grid; gap: 0.15rem; line-height: 1.3; }
   .review-byline span { font-size: 0.8rem; }
   .read-review { align-self: start; padding: 0.2rem 0; border: 0; background: transparent; color: inherit; font: inherit; font-size: 0.9rem; text-decoration: underline; text-underline-offset: 0.2em; cursor: pointer; }
@@ -70,7 +70,7 @@ const recordedDate = (date: string, short = false) => new Intl.DateTimeFormat('e
   .dialog-source, .date-note { font-size: 0.9rem; }
   dialog blockquote { margin: 1.5rem 0; }
   @media (max-width: 63.99rem) { aikkya-reviews { --cards: 2; } }
-  @media (max-width: 39.99rem) { aikkya-reviews { --cards: 1; } .review-card { padding: 1.25rem; } .introduction { text-align: left; } .review-card blockquote p { font-size: 1rem; } }
+  @media (max-width: 39.99rem) { aikkya-reviews { --cards: 1; } .review-card { padding: 1.25rem; } .introduction { text-align: justify; text-align-last: left; } .review-card blockquote p { font-size: 1rem; } }
 </style>
 <script>
   class AikkyaReviews extends HTMLElement {

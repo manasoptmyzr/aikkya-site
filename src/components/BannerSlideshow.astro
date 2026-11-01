@@ -45,7 +45,8 @@ const slides = [
       <button type="button" data-dot={i} aria-label={`Show picture ${i + 1}`} aria-pressed={i === 0 ? 'true' : 'false'}><span aria-hidden="true"></span></button>
     ))}
   </div>
-  <span id="banner-help" class="visually-hidden">Choose a dot to pause on that picture. Choose the selected dot to pause or resume the slideshow.</span>
+  <button class="playback" type="button" data-playback hidden>Pause slideshow</button>
+  <span id="banner-help" class="visually-hidden">Choose a dot to see that picture. Use the pause control to pause or resume the slideshow.</span>
 </aikkya-banner>
 
 <style>
@@ -60,6 +61,8 @@ const slides = [
   .controls { display: flex; align-items: center; justify-content: center; padding-top: 0.25rem; }
   .controls[hidden] { display: none; }
   button { display: grid; place-items: center; width: 36px; height: 44px; padding: 0; border: 0; background: transparent; cursor: pointer; }
+  .playback { width: auto; margin: 0 auto; padding-inline: 0.5rem; color: inherit; font: inherit; font-size: 0.8rem; text-decoration: underline; text-underline-offset: 0.2em; }
+  .playback[hidden] { display: none; }
   button span { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-soft); opacity: 0.4; transition: opacity 300ms ease, transform 300ms ease; }
   button[aria-pressed='true'] span { opacity: 1; transform: scale(1.4); }
   button:hover span { opacity: 1; }
@@ -78,16 +81,19 @@ const slides = [
       const slides = [...this.querySelectorAll<HTMLElement>('.slide')];
       const dots = [...this.querySelectorAll<HTMLButtonElement>('[data-dot]')];
       const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-      let playing = !reducedMotion.matches;
+      const playback = this.querySelector<HTMLButtonElement>('[data-playback]')!;
+      let playing = true;
+      let revision = 0;
       let index = 0;
       const update = () => {
         this.dataset.playing = String(playing);
+        playback.textContent = playing ? 'Pause slideshow' : 'Play slideshow';
         slides.forEach((slide, i) => slide.setAttribute('aria-hidden', String(i !== index)));
         dots.forEach((dot, i) => {
           const selected = i === index;
           dot.setAttribute('aria-pressed', String(selected));
-          const action = selected ? (playing ? 'Pause slideshow' : 'Resume slideshow') : `Show picture ${i + 1} and pause`;
-          dot.setAttribute('aria-label', selected ? `Picture ${i + 1}. ${action}` : action);
+          const action = `Show picture ${i + 1}`;
+          dot.setAttribute('aria-label', action);
           dot.title = action;
         });
       };
@@ -96,11 +102,18 @@ const slides = [
         if (template) template.replaceWith(template.content.cloneNode(true));
       };
       const startTimer = (delay = 3000) => {
+        const current = ++revision;
         clearTimeout(this.timer);
+        clearTimeout(this.fadeTimer);
+        this.dataset.fading = 'false';
         this.timer = undefined;
         if (playing && !document.hidden) {
-          loadSlide((index + 1) % slides.length);
-          this.timer = setTimeout(() => {
+          this.timer = setTimeout(async () => {
+            const next = (index + 1) % slides.length;
+            loadSlide(next);
+            const image = slides[next].querySelector('img');
+            if (image) await image.decode().catch(() => {});
+            if (current !== revision || !playing || document.hidden) return;
             const fadeDuration = reducedMotion.matches ? 0 : 900;
             this.dataset.fading = 'true';
             this.fadeTimer = setTimeout(() => {
@@ -117,23 +130,20 @@ const slides = [
         loadSlide(i);
         clearTimeout(this.fadeTimer);
         this.dataset.fading = 'false';
-        playing = i === index ? !playing : false;
         index = i;
         update();
         startTimer();
       }, { signal }));
+      playback.addEventListener('click', () => { playing = !playing; update(); startTimer(); }, { signal });
       document.addEventListener('visibilitychange', () => startTimer(), { signal });
       reducedMotion.addEventListener('change', () => {
-        if (reducedMotion.matches) { clearTimeout(this.fadeTimer); this.dataset.fading = 'false'; playing = false; update(); startTimer(); }
-      }, { signal });
-      // Fetch only the next slide so offscreen banners do not compete with the page.
-      const loadRest = () => {
         startTimer();
-      };
+      }, { signal });
+      // Fetch only the next slide and wait for it to decode before changing pictures.
       this.querySelector<HTMLElement>('.controls')!.hidden = false;
+      playback.hidden = false;
       update();
-      if (document.readyState === 'complete') loadRest();
-      else window.addEventListener('load', loadRest, { once: true, signal });
+      startTimer();
     }
     disconnectedCallback() {
       clearTimeout(this.timer);
